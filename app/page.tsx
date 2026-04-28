@@ -54,6 +54,48 @@ export default function Home() {
       </section>
 
       {/* SECTION 3 — PRODUITS */}
+      {/* SECTION 3 — GALERIE PHOTOS */}
+      <section id="galerie" className="px-12 flex flex-col justify-center" style={{background: '#fffaf6'}}>
+        <p className="text-xs tracking-widest uppercase mb-2" style={{color: 'var(--rouge)'}}>Galerie</p>
+        <h2 className="text-3xl font-bold mb-8" style={{color: '#1a0a02'}}>Nos produits en images</h2>
+        <div className="grid gap-3" style={{gridTemplateColumns: '2fr 1fr 1fr', gridTemplateRows: 'auto auto'}}>
+          <div style={{gridRow: '1 / 3', borderRadius: '4px', overflow: 'hidden', minHeight: '280px'}}>
+            <img
+              src="https://rectoversomagazine.fr/api/images/venue/recWWIpNxF8k3YcIq?index=1"
+              alt="Saveurs Corses — produits corses"
+              style={{width: '100%', height: '100%', objectFit: 'cover', display: 'block'}}
+            />
+          </div>
+          <div style={{borderRadius: '4px', overflow: 'hidden', minHeight: '134px'}}>
+            <img
+              src="https://rectoversomagazine.fr/api/images/venue/recWWIpNxF8k3YcIq?index=2"
+              alt="Saveurs Corses — charcuterie corse"
+              style={{width: '100%', height: '100%', objectFit: 'cover', display: 'block'}}
+            />
+          </div>
+          <div style={{borderRadius: '4px', overflow: 'hidden', minHeight: '134px'}}>
+            <img
+              src="https://rectoversomagazine.fr/api/images/venue/recWWIpNxF8k3YcIq?index=3"
+              alt="Saveurs Corses — spécialités corses"
+              style={{width: '100%', height: '100%', objectFit: 'cover', display: 'block'}}
+            />
+          </div>
+          <div style={{borderRadius: '4px', overflow: 'hidden', minHeight: '134px'}}>
+            <img
+              src="https://rectoversomagazine.fr/api/images/venue/recWWIpNxF8k3YcIq?index=4"
+              alt="Saveurs Corses — terroir corse"
+              style={{width: '100%', height: '100%', objectFit: 'cover', display: 'block'}}
+            />
+          </div>
+          <div style={{borderRadius: '4px', overflow: 'hidden', minHeight: '134px'}}>
+            <img
+              src="https://rectoversomagazine.fr/api/images/venue/recWWIpNxF8k3YcIq?index=0"
+              alt="Saveurs Corses — stand exposition"
+              style={{width: '100%', height: '100%', objectFit: 'cover', display: 'block'}}
+            />
+          </div>
+        </div>
+      </section>
       <section id="produits" className="px-12 py-16 flex flex-col justify-center" style={{background: '#2a1208'}}>
         <p className="text-xs tracking-widest uppercase mb-2" style={{color: 'var(--rouge)'}}>Nos spécialités</p>
         <h2 className="text-3xl font-bold mb-8" style={{color: 'var(--creme)'}}>Charcuteries & produits du terroir</h2>
