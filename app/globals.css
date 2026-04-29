@@ -12,22 +12,43 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
 }
 
 body {
   font-family: 'Lato', sans-serif;
   background: var(--brun);
   color: var(--creme);
-  overflow-x: hidden;
+  overflow: hidden;
+  height: 100vh;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+}
+
+.scroll-container {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none;
 }
 
 section {
   scroll-snap-align: start;
   height: 100vh;
   overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
 
-h1, h2, h3 {
-  font-family: 'Playfair Display', serif;
+section.visible {
+  opacity: 1;
+}
+
+input::placeholder, textarea::placeholder {
+  color: rgba(160,128,96,0.5);
 }

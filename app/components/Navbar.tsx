@@ -1,42 +1,85 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
+import Image from 'next/image'
 
 const sections = ['accueil', 'apropos', 'galerie', 'produits', 'agenda', 'contact']
 const labels = ['Accueil', 'À propos', 'Galerie', 'Produits', 'Agenda', 'Contact']
 
 export default function Navbar() {
   const [active, setActive] = useState('accueil')
+  const [current, setCurrent] = useState(0)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const isScrolling = useRef(false)
 
   useEffect(() => {
+    const container = document.getElementById('scroll-container')
+    if (!container) return
+
+    const allSections = document.querySelectorAll('section')
+    allSections.forEach(s => s.classList.add('visible'))
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) setActive(entry.target.id)
+          if (entry.isIntersecting) {
+            setActive(entry.target.id)
+            const idx = sections.indexOf(entry.target.id)
+            if (idx !== -1) setCurrent(idx)
+          }
         })
       },
-      { threshold: 0.5 }
+      { threshold: 0.5, root: container }
     )
     sections.forEach((id) => {
       const el = document.getElementById(id)
       if (el) observer.observe(el)
     })
-    return () => observer.disconnect()
-  }, [])
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault()
+      if (isScrolling.current) return
+      isScrolling.current = true
+      const dir = e.deltaY > 0 ? 1 : -1
+      const next = Math.max(0, Math.min(sections.length - 1, current + dir))
+      const el = document.getElementById(sections[next])
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        setCurrent(next)
+      }
+      setTimeout(() => { isScrolling.current = false }, 800)
+    }
+
+    container.addEventListener('wheel', handleWheel, { passive: false })
+
+    return () => {
+      observer.disconnect()
+      container.removeEventListener('wheel', handleWheel)
+    }
+  }, [current])
 
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+    const idx = sections.indexOf(id)
+    const el = document.getElementById(id)
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      setCurrent(idx)
+      setMenuOpen(false)
+    }
   }
 
   return (
     <>
-      {/* NAVBAR EN HAUT */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-3"
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3"
         style={{background: 'rgba(28,13,4,0.9)', backdropFilter: 'blur(8px)', borderBottom: '0.5px solid rgba(255,255,255,0.07)'}}>
-        <div className="text-lg font-bold" style={{fontFamily: 'Playfair Display, serif', color: '#f5ebe0'}}>
-          Saveurs <span style={{color: '#e07040'}}>Corses</span>
+
+        {/* LOGO */}
+        <div className="flex items-center" style={{height: '50px'}}>
+          <Image src="/logo.png" alt="Saveurs Corses" width={160} height={50} style={{objectFit: 'contain', maxHeight: '50px', width: 'auto'}} />
         </div>
-        <div className="flex gap-1">
+
+        {/* LIENS DESKTOP */}
+        <div className="hidden md:flex gap-1">
           {sections.map((id, i) => (
             <button key={id} onClick={() => scrollTo(id)}
               className="px-3 py-2 text-xs font-bold tracking-widest uppercase transition-colors"
@@ -49,10 +92,48 @@ export default function Navbar() {
             </button>
           ))}
         </div>
+
+        {/* BURGER MOBILE */}
+        <button className="flex md:hidden flex-col gap-1.5 p-2"
+          onClick={() => setMenuOpen(!menuOpen)}
+          style={{background: 'none', border: 'none', cursor: 'pointer'}}>
+          <span className="block w-6 h-0.5 transition-all duration-300"
+            style={{background: '#f5ebe0', transform: menuOpen ? 'rotate(45deg) translateY(8px)' : 'none'}} />
+          <span className="block w-6 h-0.5 transition-all duration-300"
+            style={{background: '#f5ebe0', opacity: menuOpen ? 0 : 1}} />
+          <span className="block w-6 h-0.5 transition-all duration-300"
+            style={{background: '#f5ebe0', transform: menuOpen ? 'rotate(-45deg) translateY(-8px)' : 'none'}} />
+        </button>
       </nav>
 
-      {/* POINTS DE NAVIGATION À DROITE */}
-      <div className="fixed right-5 top-1/2 z-50 flex flex-col gap-2" style={{transform: 'translateY(-50%)'}}>
+      {/* MENU MOBILE DÉROULANT */}
+      <div className="fixed top-0 left-0 right-0 z-40 flex flex-col pt-16 pb-6 px-6 md:hidden transition-all duration-300"
+        style={{
+          background: 'rgba(28,13,4,0.97)',
+          backdropFilter: 'blur(12px)',
+          transform: menuOpen ? 'translateY(0)' : 'translateY(-100%)',
+          opacity: menuOpen ? 1 : 0,
+          pointerEvents: menuOpen ? 'all' : 'none',
+        }}>
+        {sections.map((id, i) => (
+          <button key={id} onClick={() => scrollTo(id)}
+            className="py-4 text-left text-sm font-bold tracking-widest uppercase transition-colors"
+            style={{
+              background: 'none', border: 'none',
+              borderBottom: '0.5px solid rgba(255,255,255,0.07)',
+              cursor: 'pointer', fontFamily: 'Lato, sans-serif',
+              color: active === id ? '#e07040' : 'rgba(245,235,224,0.6)'
+            }}>
+            {labels[i]}
+          </button>
+        ))}
+        <div className="mt-4 text-xs" style={{color: 'rgba(160,128,96,0.6)'}}>
+          📞 06 58 58 95 80
+        </div>
+      </div>
+
+      {/* POINTS NAVIGATION — cachés sur mobile */}
+      <div className="hidden md:flex fixed right-5 top-1/2 z-50 flex-col gap-2" style={{transform: 'translateY(-50%)'}}>
         {sections.map((id) => (
           <button key={id} onClick={() => scrollTo(id)}
             className="rounded-full transition-all"
