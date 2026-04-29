@@ -1,3 +1,6 @@
+'use client'
+
+import APropos from './components/APropos'
 import { expositions } from './data/expositions'
 
 export default function Home() {
@@ -5,96 +8,128 @@ export default function Home() {
     <main className="scroll-container" id="scroll-container">
 
       {/* SECTION 1 — HERO */}
-      <section id="accueil" style={{background: 'var(--brun)'}} className="flex flex-col items-center justify-center text-center px-6 md:px-8 relative">
-        <p className="text-xs tracking-widest uppercase mb-4" style={{color: 'var(--miel)'}}>Charcuteries & spécialités corses · Venette, Oise</p>
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight" style={{color: 'var(--creme)'}}>
-          Le goût vrai<br />de <em style={{color: 'var(--miel)'}}>l'Île de Beauté</em>
-        </h1>
-        <p className="text-sm leading-relaxed max-w-md mb-8" style={{color: 'var(--texte-muted)'}}>
-          Une sélection rigoureuse de produits corses authentiques, issus d'un savoir-faire ancestral — présents sur les marchés et galeries de l'Oise.
-        </p>
-        <div className="flex gap-4 flex-wrap justify-center">
-          <a href="#produits" className="px-6 py-3 text-xs font-bold tracking-widest uppercase text-white rounded-sm" style={{background: 'var(--rouge)'}}>Nos produits</a>
-          <a href="#agenda" className="px-6 py-3 text-xs font-bold tracking-widest uppercase rounded-sm" style={{color: 'var(--creme)', border: '1px solid rgba(245,235,224,0.2)'}}>Agenda des expos</a>
+      <section id="accueil" className="hero-bg flex flex-col items-center justify-center text-center px-6 md:px-8" style={{
+        height: '100vh',
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+        <div className="hero-img" style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: 'url(/hero-bg.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          zIndex: 0,
+        }} />
+        <div style={{position: 'absolute', inset: 0, background: 'rgba(10,5,2,0.45)', zIndex: 1}} />
+        <div style={{position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+          <p className="text-xs tracking-widest uppercase mb-4" style={{color: 'rgba(255,255,255,0.7)'}}>Charcuteries & spécialités corses · Venette, Oise</p>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight" style={{color: '#ffffff'}}>
+            Le goût vrai<br />de <em style={{color: '#ffffff', fontStyle: 'italic'}}>l'Île de Beauté</em>
+          </h1>
+          <p className="text-sm leading-relaxed max-w-md mb-8" style={{color: 'rgba(255,255,255,0.75)'}}>
+            Une sélection rigoureuse de produits corses authentiques, issus d'un savoir-faire ancestral — présents sur les marchés et galeries de l'Oise.
+          </p>
+          <div className="flex gap-4 flex-wrap justify-center">
+            <a href="#produits" className="btn-hero-primary px-6 py-3 text-xs font-bold tracking-widest uppercase text-white rounded-sm" style={{background: 'var(--rouge)'}}>Nos produits</a>
+            <a href="#agenda" className="btn-hero-outline px-6 py-3 text-xs font-bold tracking-widest uppercase rounded-sm" style={{color: '#ffffff', border: '1px solid rgba(255,255,255,0.35)'}}>Agenda des expos</a>
+          </div>
         </div>
-        <div className="absolute bottom-8 flex flex-col items-center gap-2">
-          <span className="text-xs tracking-widest uppercase" style={{color: 'rgba(160,128,96,0.5)'}}>Défiler</span>
-          <div className="w-4 h-4 border-r-2 border-b-2 rotate-45 animate-bounce" style={{borderColor: 'var(--rouge)'}}></div>
+        <div className="absolute bottom-8 flex flex-col items-center gap-2" style={{zIndex: 2}}>
+          <span className="text-xs tracking-widest uppercase" style={{color: 'rgba(255,255,255,0.4)'}}>Défiler</span>
+          <div className="w-4 h-4 border-r-2 border-b-2 rotate-45 animate-bounce" style={{borderColor: 'rgba(255,255,255,0.5)'}}></div>
         </div>
       </section>
 
       {/* SECTION 2 — À PROPOS */}
-      <section id="apropos" className="flex flex-col md:grid md:grid-cols-2 gap-8 px-6 md:px-12 py-24 md:py-0 items-center justify-center" style={{background: '#fffaf6'}}>
-        <div>
-          <p className="text-xs tracking-widest uppercase mb-2" style={{color: 'var(--rouge)'}}>Qui sommes-nous</p>
-          <h2 className="text-2xl md:text-3xl font-bold mb-4" style={{color: '#1a0a02'}}>Une passion pour les traditions culinaires de l'Île de Beauté</h2>
-          <p className="text-sm leading-relaxed mb-3" style={{color: '#5a3a2a'}}>
-            Saveurs Corses est une petite entreprise passionnée, dédiée à la mise en valeur des traditions culinaires corses. Présente sur les marchés et dans les galeries marchandes, elle propose une sélection rigoureuse de produits authentiques issus d'un savoir-faire ancestral.
-          </p>
-          <p className="text-sm leading-relaxed" style={{color: '#5a3a2a'}}>
-            À travers chaque produit, l'ambition est de faire découvrir le goût vrai, la générosité et l'authenticité de la Corse — dans un esprit de proximité et de convivialité.
-          </p>
-          <div className="flex items-center gap-2 mt-4 pt-4 text-sm" style={{borderTop: '1px solid #e8d5c4', color: '#5a3a2a'}}>
-            <span>📍 Venette, 60280 —</span>
-            <strong style={{color: 'var(--rouge)'}}>06 58 58 95 80</strong>
+      <APropos />
+
+      {/* SECTION 3 — PRODUITS */}
+      <section id="produits" style={{
+        height: '100vh',
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+      }}>
+        <div style={{position: 'absolute', inset: 0, backgroundImage: 'url(/texture.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0}} />
+        <div style={{position: 'absolute', inset: 0, background: 'rgba(15,10,5,0.8)', zIndex: 1}} />
+
+        <div style={{position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%', padding: '80px 64px 40px'}}>
+
+          {/* HEADER */}
+          <div style={{marginBottom: '20px'}}>
+            <p style={{fontSize: '11px', letterSpacing: '3px', textTransform: 'uppercase', color: '#8b1a1a', fontWeight: 700, marginBottom: '4px'}}>Nos spécialités</p>
+            <h2 style={{fontFamily: 'Playfair Display, serif', fontSize: '22px', fontWeight: 700, color: '#f5ebe0'}}>Charcuteries & produits du terroir</h2>
           </div>
-        </div>
-        <div className="flex flex-row md:flex-col gap-6 md:pl-8" style={{borderLeft: 'none'}}>
-          <div className="flex-1 md:flex-none" style={{borderLeft: '3px solid #e8d5c4', paddingLeft: '14px'}}>
-            <p className="text-2xl md:text-3xl font-bold" style={{fontFamily: 'Playfair Display, serif', color: 'var(--rouge)'}}>100%</p>
-            <p className="text-xs mt-1" style={{color: '#5a3a2a'}}>Produits corses authentiques</p>
+
+          {/* GRILLE 2 COLONNES */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gridTemplateRows: '1fr 1fr',
+            gap: '8px',
+            flex: '0 0 62%',
+            overflow: 'hidden',
+          }}>
+            {[
+              { img: '/produits/saucisson_porc.png', nom: 'Saucisson de porc', desc: 'Nature ou aux myrtes' },
+              { img: '/produits/coppa.png', nom: 'Coppa', desc: 'Échine marinée et séchée' },
+              { img: '/produits/lonzu_fermier.png', nom: 'Lonzo', desc: 'Filet séché aux herbes du maquis' },
+              { img: '/produits/jambon_sec.png', nom: 'Jambon sec', desc: 'Affiné selon les méthodes ancestrales' },
+            ].map((p) => (
+              <div key={p.nom} style={{position: 'relative', overflow: 'hidden', borderRadius: '4px'}}>
+                <img
+                  src={p.img}
+                  alt={p.nom}
+                  style={{
+                    width: '100%', height: '100%',
+                    objectFit: 'cover', display: 'block',
+                    transition: 'transform 0.5s ease',
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.06)')}
+                  onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+                />
+                {/* TEXTE SUR FOND SOMBRE */}
+                <div style={{position: 'absolute', bottom: 0, left: 0, right: 0, padding: '12px 16px', background: 'rgba(0,0,0,0.6)', pointerEvents: 'none'}}>
+                  <div style={{width: '20px', height: '2px', background: '#8b1a1a', marginBottom: '5px'}} />
+                  <p style={{fontFamily: 'Playfair Display, serif', fontSize: '14px', fontWeight: 700, color: '#f5ebe0', marginBottom: '2px'}}>{p.nom}</p>
+                  <p style={{fontSize: '10px', color: 'rgba(245,235,224,0.65)'}}>{p.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
-          <div className="flex-1 md:flex-none" style={{borderLeft: '3px solid #e8d5c4', paddingLeft: '14px'}}>
-            <p className="text-2xl md:text-3xl font-bold" style={{fontFamily: 'Playfair Display, serif', color: 'var(--rouge)'}}>Artisan</p>
-            <p className="text-xs mt-1" style={{color: '#5a3a2a'}}>Producteurs sélectionnés</p>
+
+          {/* MIELS ET MOUTARDES */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '8px',
+            marginTop: '8px',
+          }}>
+            {[
+              { ico: '🍯', nom: 'Miels corses', desc: 'Arômes subtils du maquis et des châtaigneraies' },
+              { ico: '🫙', nom: 'Moutardes & gourmandises', desc: 'Moutardes de caractère et spécialités artisanales' },
+            ].map((p) => (
+              <div key={p.nom} style={{
+                display: 'flex', alignItems: 'center', gap: '14px',
+                padding: '14px 24px',
+                background: 'rgba(255,255,255,0.04)',
+                borderRadius: '4px',
+                border: '0.5px solid rgba(255,255,255,0.08)',
+                borderLeft: '2px solid #8b1a1a',
+              }}>
+                <span style={{fontSize: '22px'}}>{p.ico}</span>
+                <div>
+                  <p style={{fontSize: '13px', fontWeight: 700, color: '#f5ebe0'}}>{p.nom}</p>
+                  <p style={{fontSize: '11px', color: '#a08060', marginTop: '3px'}}>{p.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
-          <div className="flex-1 md:flex-none" style={{borderLeft: '3px solid #e8d5c4', paddingLeft: '14px'}}>
-            <p className="text-2xl md:text-3xl font-bold" style={{fontFamily: 'Playfair Display, serif', color: 'var(--rouge)'}}>Local</p>
-            <p className="text-xs mt-1" style={{color: '#5a3a2a'}}>Présent dans l'Oise</p>
-          </div>
+
         </div>
       </section>
 
-      {/* SECTION 3 — GALERIE */}
-      <section id="galerie" className="px-6 md:px-12 py-24 md:py-0 flex flex-col justify-center" style={{background: '#fffaf6'}}>
-        <p className="text-xs tracking-widest uppercase mb-2" style={{color: 'var(--rouge)'}}>Galerie</p>
-        <h2 className="text-2xl md:text-3xl font-bold mb-6" style={{color: '#1a0a02'}}>Nos produits en images</h2>
-        <div className="grid gap-3" style={{gridTemplateColumns: 'repeat(2, 1fr)'}}>
-          <div className="md:row-span-2 rounded-sm overflow-hidden" style={{minHeight: '200px', maxHeight: '340px'}}>
-            <img src="https://rectoversomagazine.fr/api/images/venue/recWWIpNxF8k3YcIq?index=1" alt="Saveurs Corses" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
-          </div>
-          <div className="rounded-sm overflow-hidden" style={{minHeight: '100px', maxHeight: '160px'}}>
-            <img src="https://rectoversomagazine.fr/api/images/venue/recWWIpNxF8k3YcIq?index=2" alt="Saveurs Corses" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
-          </div>
-          <div className="rounded-sm overflow-hidden" style={{minHeight: '100px', maxHeight: '160px'}}>
-            <img src="https://rectoversomagazine.fr/api/images/venue/recWWIpNxF8k3YcIq?index=3" alt="Saveurs Corses" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 4 — PRODUITS */}
-      <section id="produits" className="px-6 md:px-12 py-24 md:py-0 flex flex-col justify-center" style={{background: '#2a1208'}}>
-        <p className="text-xs tracking-widest uppercase mb-2" style={{color: 'var(--rouge)'}}>Nos spécialités</p>
-        <h2 className="text-2xl md:text-3xl font-bold mb-6" style={{color: 'var(--creme)'}}>Charcuteries & produits du terroir</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          {[
-            { ico: '🥩', nom: 'Saucisson de porc', desc: 'Nature ou aux myrtes, recettes traditionnelles corses' },
-            { ico: '🍖', nom: 'Coppa', desc: 'Échine marinée et séchée, texture fondante' },
-            { ico: '🥓', nom: 'Lonzo', desc: 'Filet mignon séché aux herbes du maquis' },
-            { ico: '🐗', nom: 'Saucisson de sanglier', desc: 'Spécialité marquée, recette ancestrale' },
-            { ico: '🍯', nom: 'Miels corses', desc: 'Arômes subtils du maquis et des châtaigneraies' },
-            { ico: '🫙', nom: 'Moutardes & gourmandises', desc: 'Moutardes de caractère et spécialités artisanales' },
-          ].map((p) => (
-            <div key={p.nom} className="p-3 md:p-4 rounded-sm" style={{background: 'rgba(255,255,255,0.05)', borderLeft: '3px solid var(--rouge)'}}>
-              <div className="text-xl md:text-2xl mb-2">{p.ico}</div>
-              <p className="text-xs md:text-sm font-bold mb-1" style={{color: 'var(--creme)'}}>{p.nom}</p>
-              <p className="text-xs leading-relaxed hidden md:block" style={{color: 'var(--texte-muted)'}}>{p.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* SECTION 5 — AGENDA */}
+      {/* SECTION 4 — AGENDA */}
       <section id="agenda" className="px-6 md:px-12 py-24 md:py-0 flex flex-col justify-center" style={{background: '#fffaf6'}}>
         <p className="text-xs tracking-widest uppercase mb-2" style={{color: 'var(--rouge)'}}>Agenda</p>
         <h2 className="text-2xl md:text-3xl font-bold mb-6" style={{color: '#1a0a02'}}>Retrouvez-nous près de chez vous</h2>
@@ -118,7 +153,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 6 — CONTACT */}
+      {/* SECTION 5 — CONTACT */}
       <section id="contact" className="flex flex-col md:grid md:grid-cols-2 gap-8 px-6 md:px-12 py-24 md:py-0 items-center" style={{background: 'var(--brun)'}}>
         <div>
           <p className="text-xs tracking-widest uppercase mb-2" style={{color: 'var(--miel)'}}>Contact</p>

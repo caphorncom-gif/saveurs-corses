@@ -3,11 +3,11 @@
 @import "tailwindcss";
 
 :root {
-  --brun: #1c0d04;
-  --rouge: #b5451b;
-  --creme: #f5ebe0;
-  --miel: #e07040;
-  --texte-muted: #a08060;
+  --brun: #1a0a02;
+  --rouge: #8b1a1a;
+  --creme: #ffffff;
+  --miel: #8b1a1a;
+  --texte-muted: #c8b49a;
 }
 
 html {
@@ -21,7 +21,10 @@ body {
   overflow: hidden;
   height: 100vh;
 }
-
+section {
+  scroll-snap-align: start;
+  height: 100vh;
+}
 h1, h2, h3 {
   font-family: 'Playfair Display', serif;
 }
@@ -40,15 +43,35 @@ h1, h2, h3 {
 section {
   scroll-snap-align: start;
   height: 100vh;
-  overflow: hidden;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-section.visible {
-  opacity: 1;
+  /* Plus d'opacity 0 ici — on gère via JS uniquement */
 }
 
 input::placeholder, textarea::placeholder {
   color: rgba(160,128,96,0.5);
+}
+
+/* Zoom hover sur le Hero */
+.hero-img {
+  transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: scale(1);
+}
+
+.hero-bg:hover .hero-img {
+  transform: scale(1.06);
+}
+
+/* Hover boutons Hero */
+.btn-hero-primary {
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.btn-hero-primary:hover {
+  background: #6b1212 !important;
+  transform: translateY(-2px);
+}
+
+.btn-hero-outline {
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.btn-hero-outline:hover {
+  background: rgba(255,255,255,0.15) !important;
 }

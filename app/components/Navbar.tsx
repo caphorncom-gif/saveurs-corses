@@ -3,8 +3,8 @@
 import { useEffect, useState, useRef } from 'react'
 import Image from 'next/image'
 
-const sections = ['accueil', 'apropos', 'galerie', 'produits', 'agenda', 'contact']
-const labels = ['Accueil', 'À propos', 'Galerie', 'Produits', 'Agenda', 'Contact']
+const sections = ['accueil', 'apropos', 'produits', 'agenda', 'contact']
+const labels = ['Accueil', 'À propos', 'Produits', 'Agenda', 'Contact']
 
 export default function Navbar() {
   const [active, setActive] = useState('accueil')
@@ -71,11 +71,11 @@ export default function Navbar() {
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3"
-        style={{background: 'rgba(28,13,4,0.9)', backdropFilter: 'blur(8px)', borderBottom: '0.5px solid rgba(255,255,255,0.07)'}}>
+        style={{background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(8px)', borderBottom: '0.5px solid rgba(255,255,255,0.07)'}}>
 
         {/* LOGO */}
         <div className="flex items-center" style={{height: '50px'}}>
-          <Image src="/logo.png" alt="Saveurs Corses" width={160} height={50} style={{objectFit: 'contain', maxHeight: '50px', width: 'auto'}} />
+        <Image src="/logo.png" alt="Saveurs Corses" width={160} height={50} style={{objectFit: 'contain', maxHeight: '50px', width: 'auto', mixBlendMode: 'multiply'}} />
         </div>
 
         {/* LIENS DESKTOP */}
@@ -86,30 +86,30 @@ export default function Navbar() {
               style={{
                 background: 'none', border: 'none', cursor: 'pointer',
                 fontFamily: 'Lato, sans-serif',
-                color: active === id ? '#e07040' : 'rgba(245,235,224,0.4)'
+                color: active === id ? '#8b1a1a' : 'rgba(37,37,35,0.4)'
               }}>
               {labels[i]}
             </button>
           ))}
         </div>
 
-        {/* BURGER MOBILE */}
-        <button className="flex md:hidden flex-col gap-1.5 p-2"
+         {/* BURGER MOBILE */}
+         <button className="flex md:hidden flex-col gap-1.5 p-2"
           onClick={() => setMenuOpen(!menuOpen)}
           style={{background: 'none', border: 'none', cursor: 'pointer'}}>
           <span className="block w-6 h-0.5 transition-all duration-300"
-            style={{background: '#f5ebe0', transform: menuOpen ? 'rotate(45deg) translateY(8px)' : 'none'}} />
+            style={{background: '#1a0a02', transform: menuOpen ? 'rotate(45deg) translateY(8px)' : 'none'}} />
           <span className="block w-6 h-0.5 transition-all duration-300"
-            style={{background: '#f5ebe0', opacity: menuOpen ? 0 : 1}} />
+            style={{background: '#1a0a02', opacity: menuOpen ? 0 : 1}} />
           <span className="block w-6 h-0.5 transition-all duration-300"
-            style={{background: '#f5ebe0', transform: menuOpen ? 'rotate(-45deg) translateY(-8px)' : 'none'}} />
+            style={{background: '#1a0a02', transform: menuOpen ? 'rotate(-45deg) translateY(-8px)' : 'none'}} />
         </button>
       </nav>
 
       {/* MENU MOBILE DÉROULANT */}
       <div className="fixed top-0 left-0 right-0 z-40 flex flex-col pt-16 pb-6 px-6 md:hidden transition-all duration-300"
         style={{
-          background: 'rgba(28,13,4,0.97)',
+          background: 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(12px)',
           transform: menuOpen ? 'translateY(0)' : 'translateY(-100%)',
           opacity: menuOpen ? 1 : 0,
@@ -122,7 +122,7 @@ export default function Navbar() {
               background: 'none', border: 'none',
               borderBottom: '0.5px solid rgba(255,255,255,0.07)',
               cursor: 'pointer', fontFamily: 'Lato, sans-serif',
-              color: active === id ? '#e07040' : 'rgba(245,235,224,0.6)'
+              color: active === id ? '#8b1a1a' : 'rgba(26,10,2,0.5)'
             }}>
             {labels[i]}
           </button>
@@ -140,7 +140,7 @@ export default function Navbar() {
             style={{
               width: active === id ? '8px' : '6px',
               height: active === id ? '8px' : '6px',
-              background: active === id ? '#e07040' : 'rgba(245,235,224,0.2)',
+              background: active === id ? '#8b1a1a' : 'rgba(26,10,2,0.2)',
               border: 'none', cursor: 'pointer', padding: 0,
               transform: active === id ? 'scale(1.3)' : 'scale(1)'
             }} />
