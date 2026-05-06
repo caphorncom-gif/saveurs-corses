@@ -24,6 +24,11 @@ body {
 section {
   scroll-snap-align: start;
   height: 100vh;
+  overflow: hidden;
+}
+
+section.scrollable {
+  overflow: visible;
 }
 h1, h2, h3 {
   font-family: 'Playfair Display', serif;
@@ -74,4 +79,12 @@ input::placeholder, textarea::placeholder {
 }
 .btn-hero-outline:hover {
   background: rgba(255,255,255,0.15) !important;
+}
+
+.texte-justifie {
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  word-spacing: -0.05em;
 }

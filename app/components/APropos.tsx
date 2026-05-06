@@ -27,14 +27,14 @@ function StatItem({ valeur, label, delay }: { valeur: string, label: string, del
   return (
     <div ref={ref} style={{
       borderLeft: '3px solid #8b1a1a',
-      paddingLeft: '16px',
+      paddingLeft: '14px',
       transition: 'opacity 0.7s ease, transform 0.7s ease',
       transitionDelay: `${delay}ms`,
       opacity: visible ? 1 : 0,
       transform: visible ? 'translateY(0)' : 'translateY(20px)',
     }}>
-      <p style={{fontFamily: 'Playfair Display, serif', fontSize: '26px', fontWeight: 700, color: '#8b1a1a', lineHeight: 1}}>{valeur}</p>
-      <p style={{fontSize: '11px', color: '#5a3a2a', marginTop: '4px'}}>{label}</p>
+      <p style={{ fontFamily: 'Playfair Display, serif', fontSize: '22px', fontWeight: 700, color: '#8b1a1a', lineHeight: 1 }}>{valeur}</p>
+      <p style={{ fontSize: '11px', color: '#5a3a2a', marginTop: '4px' }}>{label}</p>
     </div>
   )
 }
@@ -54,23 +54,37 @@ export default function APropos() {
       background: '#fffaf6',
       height: '100vh',
       display: 'flex',
-      flexDirection: 'column',
-      paddingTop: '56px',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '48px',
+      padding: '80px 120px 60px',
     }}>
 
-      {/* CAROUSEL EN HAUT */}
-      <div style={{position: 'relative', width: '100%', flex: '0 0 50%', overflow: 'hidden'}}>
+      {/* CAROUSEL GAUCHE */}
+      <div style={{
+        position: 'relative',
+        flex: '0 0 38%',
+        height: '65%',
+        overflow: 'hidden',
+        borderRadius: '8px',
+        border: '0.5px solid #e8d5c4',
+      }}>
         {photos.map((src, i) => (
           <img key={i} src={src} alt={`Saveurs Corses ${i}`} style={{
             position: 'absolute', inset: 0,
             width: '100%', height: '100%',
-            objectFit: 'cover', objectPosition: 'center',
+            objectFit: 'cover',
+            objectPosition: 'center',
             display: 'block',
             opacity: i === current ? 1 : 0,
             transition: 'opacity 0.8s ease',
           }} />
         ))}
-        <div style={{position: 'absolute', bottom: '16px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '8px', zIndex: 2}}>
+        <div style={{
+          position: 'absolute', bottom: '16px', left: '50%',
+          transform: 'translateX(-50%)',
+          display: 'flex', gap: '8px', zIndex: 2,
+        }}>
           {photos.map((_, i) => (
             <button key={i} onClick={() => setCurrent(i)} style={{
               width: i === current ? '20px' : '8px', height: '8px',
@@ -83,32 +97,35 @@ export default function APropos() {
         </div>
       </div>
 
-      {/* TEXTE + STATS — centré sur les 2 axes */}
+      {/* TEXTE + STATS DROITE */}
       <div style={{
-        flex: 1,
+        flex: '0 0 32%',
         display: 'flex',
-        alignItems: 'center',
+        flexDirection: 'column',
         justifyContent: 'center',
-        padding: '0 64px',
+        gap: '16px',
       }}>
-        <div style={{maxWidth: '800px', width: '100%'}}>
-          <p style={{fontSize: '11px', letterSpacing: '3px', textTransform: 'uppercase', color: '#8b1a1a', fontWeight: 700, marginBottom: '8px'}}>Qui sommes-nous</p>
-          <h2 style={{fontFamily: 'Playfair Display, serif', fontSize: '22px', fontWeight: 700, color: '#1a0a02', lineHeight: 1.25, marginBottom: '12px'}}>
+        <div>
+          <p style={{ fontSize: '11px', letterSpacing: '3px', textTransform: 'uppercase', color: '#8b1a1a', fontWeight: 700, marginBottom: '8px' }}>Qui sommes-nous</p>
+          <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '22px', fontWeight: 700, color: '#1a0a02', lineHeight: 1.3, marginBottom: '12px' }}>
             Une passion pour les traditions culinaires de l'Île de Beauté
           </h2>
-          <p style={{fontSize: '13px', lineHeight: 1.75, color: '#5a3a2a', marginBottom: '8px'}}>
-            Saveurs Corses est une petite entreprise passionnée, dédiée à la mise en valeur des traditions culinaires corses. Elle propose une sélection rigoureuse de produits authentiques issus d'un savoir-faire ancestral.
+          <p style={{ fontSize: '13px', lineHeight: 1.8, color: '#5a3a2a', marginBottom: '8px', textAlign: 'justify', wordSpacing: '0.1em' }}>
+            Saveurs Corses est une petite entreprise passionnée, dédiée à la mise en valeur des traditions culinaires corses. Présente sur les marchés et dans les galeries marchandes, elle propose une sélection rigoureuse de produits authentiques issus d'un savoir-faire ancestral.
           </p>
-          <div style={{display: 'flex', alignItems: 'center', gap: '8px', paddingTop: '12px', borderTop: '1px solid #e8d5c4', fontSize: '12px', color: '#5a3a2a', marginBottom: '16px'}}>
-            <span>📍 Venette, 60280 —</span>
-            <strong style={{color: '#8b1a1a'}}>06 58 58 95 80</strong>
-          </div>
-          {/* STATS EN LIGNE */}
-          <div style={{display: 'flex', gap: '32px', paddingTop: '16px', borderTop: '1px solid #e8d5c4'}}>
-            <StatItem valeur="100%" label="Produits corses authentiques" delay={0} />
-            <StatItem valeur="Artisan" label="Producteurs sélectionnés" delay={200} />
-            <StatItem valeur="Local" label="Présent dans l'Oise" delay={400} />
-          </div>
+          <p style={{ fontSize: '13px', lineHeight: 1.8, color: '#5a3a2a' }}>
+            À travers chaque produit, l'ambition est de faire découvrir le goût vrai, la générosité et l'authenticité de la Corse<br />
+            dans un esprit de proximité et de convivialité.
+          </p>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', paddingTop: '12px', borderTop: '1px solid #e8d5c4', fontSize: '12px', color: '#5a3a2a' }}>
+          <span>📍 Venette, 60280 —</span>
+          <strong style={{ color: '#8b1a1a' }}>06 58 58 95 80</strong>
+        </div>
+        <div style={{ display: 'flex', gap: '24px', paddingTop: '12px', borderTop: '1px solid #e8d5c4' }}>
+          <StatItem valeur="100%" label="Produits corses authentiques" delay={0} />
+          <StatItem valeur="Artisan" label="Producteurs sélectionnés" delay={200} />
+          <StatItem valeur="Local" label="Présent dans l'Oise" delay={400} />
         </div>
       </div>
 
