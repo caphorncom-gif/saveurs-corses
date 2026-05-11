@@ -42,3 +42,6 @@ next-env.d.ts
 public/*.jpg
 public/*.png
 public/*.webp
+*.psd
+hero-bg.png
+hero-bg.png
