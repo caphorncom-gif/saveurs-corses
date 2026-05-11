@@ -4,23 +4,22 @@ export default function HeroCaroussel() {
   return (
     <section id="accueil" className="hero-bg flex flex-col items-center justify-center text-center px-6 md:px-8" style={{
       height: '100vh', position: 'relative', overflow: 'hidden',
-      backgroundColor: '#1a0a02',
     }}>
       <div style={{
         position: 'absolute', inset: 0,
         backgroundImage: 'url(/visuel-bg-3.png)',
-        backgroundSize: '100%',
-backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
         backgroundRepeat: 'no-repeat',
         zIndex: 0,
-        animation: 'dezoom 12s ease-out forwards',
       }} />
-      <div style={{position: 'absolute', inset: 0, background: 'rgba(10,5,2,0.55)', zIndex: 1}} />
+      <div style={{position: 'absolute', inset: 0, background: 'rgba(10,5,2,0.60)', zIndex: 1}} />
       <div style={{position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
         <div style={{
           width: '260px', height: '260px', borderRadius: '50%',
           background: '#ffffff', display: 'flex', alignItems: 'center',
           justifyContent: 'center', marginBottom: '24px', flexShrink: 0,
+          boxShadow: '0 0 40px rgba(255,255,255,0.15), 0 8px 32px rgba(0,0,0,0.4)',
         }}>
           <img src="/logo.png" alt="Saveurs Corses" style={{width: '200px', height: '200px', objectFit: 'contain', display: 'block'}} />
         </div>
@@ -40,12 +39,6 @@ backgroundPosition: 'center',
         <span className="text-xs tracking-widest uppercase" style={{color: 'rgba(255,255,255,0.4)'}}>Défiler</span>
         <div className="w-4 h-4 border-r-2 border-b-2 rotate-45 animate-bounce" style={{borderColor: 'rgba(255,255,255,0.5)'}}></div>
       </div>
-      <style>{`
-        @keyframes dezoom {
-          from { transform: scale(1.05); }
-          to { transform: scale(1); }
-        }
-      `}</style>
     </section>
   )
 }

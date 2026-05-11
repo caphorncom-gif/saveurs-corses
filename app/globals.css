@@ -21,15 +21,12 @@ body {
   overflow: hidden;
   height: 100vh;
 }
+
 section {
   scroll-snap-align: start;
   height: 100vh;
-  overflow: hidden;
 }
 
-section.scrollable {
-  overflow: visible;
-}
 h1, h2, h3 {
   font-family: 'Playfair Display', serif;
 }
@@ -45,17 +42,10 @@ h1, h2, h3 {
   display: none;
 }
 
-section {
-  scroll-snap-align: start;
-  height: 100vh;
-  /* Plus d'opacity 0 ici — on gère via JS uniquement */
-}
-
 input::placeholder, textarea::placeholder {
   color: rgba(160,128,96,0.5);
 }
 
-/* Zoom hover sur le Hero */
 .hero-img {
   transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform: scale(1);
@@ -65,7 +55,6 @@ input::placeholder, textarea::placeholder {
   transform: scale(1.06);
 }
 
-/* Hover boutons Hero */
 .btn-hero-primary {
   transition: background 0.3s ease, transform 0.2s ease;
 }
