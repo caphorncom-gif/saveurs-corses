@@ -4,6 +4,8 @@ import APropos from './components/APropos'
 import { expositions } from './data/expositions'
 import HeroCarousel from './components/HeroCaroussel'
 
+const BASE = 'https://kpfjwpfjbemlchlksqzr.supabase.co/storage/v1/object/public/Photos/'
+
 export default function Home() {
   return (
     <main className="scroll-container" id="scroll-container">
@@ -24,36 +26,18 @@ export default function Home() {
         padding: 'clamp(56px, 8vw, 80px) clamp(16px, 8vw, 120px)',
         gap: '64px', overflow: 'hidden',
       }}>
-
-        {/* MAP GAUCHE — desktop uniquement en colonne */}
         <div className="hidden md:block" style={{flexGrow: 0, flexShrink: 0, flexBasis: '38%', height: '600px', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(26,10,2,0.08)', border: '0.5px solid #e8d5c4'}}>
-          <iframe
-            src="https://maps.google.com/maps?q=Venette,60280,France&output=embed&z=13"
-            width="100%" height="100%"
-            style={{border: 0, display: 'block'}}
-            allowFullScreen loading="lazy"
-          />
+          <iframe src="https://maps.google.com/maps?q=Venette,60280,France&output=embed&z=13" width="100%" height="100%" style={{border: 0, display: 'block'}} allowFullScreen loading="lazy" />
         </div>
-
-        {/* CONTENU — prend toute la largeur sur mobile */}
-        <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
-
+        <div style={{flexGrow: 1, flexShrink: 1, flexBasis: 'auto', width: '100%', maxWidth: '480px', maxHeight: '600px', display: 'flex', flexDirection: 'column', gap: '8px', justifyContent: 'flex-start'}}>
           <div>
             <p style={{fontSize: '11px', letterSpacing: '3px', textTransform: 'uppercase', color: '#8b1a1a', fontWeight: 700, marginBottom: '8px'}}>Agenda</p>
             <h2 style={{fontFamily: 'Playfair Display, serif', fontSize: 'clamp(20px, 4vw, 32px)', fontWeight: 700, color: '#1a0a02', marginBottom: '8px', lineHeight: 1.2}}>Retrouvez-nous<br />près de chez vous</h2>
           </div>
-
-          {/* MAP MOBILE — visible uniquement sur mobile */}
           <div className="block md:hidden" style={{width: '100%', height: '160px', borderRadius: '8px', overflow: 'hidden', border: '0.5px solid #e8d5c4', flexShrink: 0}}>
-            <iframe
-              src="https://maps.google.com/maps?q=Venette,60280,France&output=embed&z=13"
-              width="100%" height="100%"
-              style={{border: 0, display: 'block'}}
-              allowFullScreen loading="lazy"
-            />
+            <iframe src="https://maps.google.com/maps?q=Venette,60280,France&output=embed&z=13" width="100%" height="100%" style={{border: 0, display: 'block'}} allowFullScreen loading="lazy" />
           </div>
-
-          <div style={{display: 'flex', flexDirection: 'column', gap: '8px', flex: 1}}>
+          <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
             {expositions.map((e) => (
               <div key={e.lieu} style={{
                 display: 'flex', gap: '16px', alignItems: 'center',
@@ -83,7 +67,6 @@ export default function Home() {
               </div>
             ))}
           </div>
-
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', background: '#1a0a02', borderRadius: '6px', flexShrink: 0}}>
             <p style={{fontFamily: 'Playfair Display, serif', fontSize: 'clamp(11px, 2vw, 15px)', fontWeight: 700, color: '#f5ebe0'}}>Vous souhaitez nous accueillir ?</p>
             <a href="#contact" style={{flexShrink: 0, background: '#8b1a1a', color: '#fff', padding: '8px 14px', borderRadius: '3px', fontSize: '10px', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', textDecoration: 'none', marginLeft: '12px'}}
@@ -92,8 +75,8 @@ export default function Home() {
             >Nous contacter</a>
           </div>
         </div>
-
       </section>
+
       {/* SECTION 5 — CONTACT */}
       <section id="contact" style={{
         background: 'var(--brun)', height: '100vh',
@@ -101,7 +84,7 @@ export default function Home() {
         padding: 'clamp(60px, 8vw, 80px) clamp(16px, 6vw, 80px)',
         position: 'relative', overflow: 'hidden',
       }}>
-        <div style={{position: 'absolute', inset: 0, backgroundImage: 'url(/contact-bg.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0, opacity: 0.35}} />
+        <div style={{position: 'absolute', inset: 0, backgroundImage: `url(${BASE}contact-bg.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0, opacity: 0.35}} />
         <div style={{position: 'relative', zIndex: 1, maxWidth: '900px', width: '100%', display: 'flex', flexDirection: 'column', gap: '16px', overflowY: 'auto', maxHeight: '90vh'}}>
           <div>
             <p style={{fontSize: '11px', letterSpacing: '3px', textTransform: 'uppercase', color: '#f5ebe0', fontWeight: 700, marginBottom: '8px'}}>Contact</p>
@@ -114,7 +97,7 @@ export default function Home() {
             <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
               <div style={{display: 'flex', alignItems: 'center', gap: '16px', padding: '14px 16px', background: 'rgba(255,255,255,0.08)', borderRadius: '6px', border: '0.5px solid rgba(255,255,255,0.15)'}}>
                 <div style={{width: '56px', height: '56px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '2px solid rgba(255,255,255,0.2)'}}>
-                  <img src="/photo_rodolphe.JPEG" alt="Rodolphe Defouloy" style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top'}} />
+                  <img src={BASE + 'photo_rodolphe.JPEG'} alt="Rodolphe Defouloy" style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top'}} />
                 </div>
                 <div>
                   <p style={{fontFamily: 'Playfair Display, serif', fontSize: '15px', fontWeight: 700, color: '#f5ebe0', marginBottom: '3px'}}>Rodolphe Defouloy</p>
@@ -122,11 +105,11 @@ export default function Home() {
                 </div>
               </div>
               <div style={{display: 'flex', alignItems: 'center', gap: '16px', padding: '14px 16px', background: 'rgba(255,255,255,0.08)', borderRadius: '6px', border: '0.5px solid rgba(255,255,255,0.15)'}}>
-                <div style={{width: '56px', height: '56px', borderRadius: '50%', flexShrink: 0, border: '2px solid rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                  <span style={{fontSize: '24px'}}>👤</span>
+                <div style={{width: '56px', height: '56px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '2px solid rgba(255,255,255,0.2)'}}>
+                  <img src={BASE + 'photo_sylvie.png'} alt="Sylvie Defouloy" style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top'}} />
                 </div>
                 <div>
-                  <p style={{fontFamily: 'Playfair Display, serif', fontSize: '15px', fontWeight: 700, color: '#f5ebe0', marginBottom: '3px'}}>Sylvie</p>
+                  <p style={{fontFamily: 'Playfair Display, serif', fontSize: '15px', fontWeight: 700, color: '#f5ebe0', marginBottom: '3px'}}>Sylvie Defouloy</p>
                   <p style={{fontSize: '10px', color: 'rgba(245,235,224,0.55)', letterSpacing: '2px', textTransform: 'uppercase'}}>Fondatrice · Saveurs Corses</p>
                 </div>
               </div>

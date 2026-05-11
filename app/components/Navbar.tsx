@@ -69,7 +69,7 @@ export default function Navbar() {
         style={{background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', borderBottom: '0.5px solid rgba(26,10,2,0.1)'}}>
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', gap: '32px'}}>
           <div style={{height: '50px', display: 'flex', alignItems: 'center', flexShrink: 0}}>
-            <Image src="/logo.png" alt="Saveurs Corses" width={120} height={40} style={{objectFit: 'contain', maxHeight: '40px', width: 'auto', mixBlendMode: 'multiply'}} />
+            <img src="https://kpfjwpfjbemlchlksqzr.supabase.co/storage/v1/object/public/Photos/logo.png" alt="Saveurs Corses" style={{height: '40px', width: 'auto', objectFit: 'contain', mixBlendMode: 'multiply'}} />
           </div>
           <div className="hidden md:flex gap-1">
             {sections.map((id, i) => (

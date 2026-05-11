@@ -2,20 +2,18 @@
 
 import { useState, useEffect } from 'react'
 
-const produits = [
-  { img: '/produits/saucisson_porc.png', nom: 'Saucisson de porc', desc: 'Nature ou aux myrtes, recettes traditionnelles corses. Un saucisson affiné avec soin, aux saveurs intenses du terroir corse.' },
-  { img: '/produits/saucisson_sanglier.png', nom: 'Saucisson de sanglier', desc: 'Saucisson de sanglier sauvage aux arômes puissants du maquis corse. Une spécialité rare et authentique.' },
-  { img: '/produits/coppa.png', nom: 'Coppa', desc: 'Échine marinée et séchée selon les méthodes ancestrales. Sa texture fondante et ses arômes délicats en font une spécialité incontournable.' },
-  { img: '/produits/lonzu_fermier.png', nom: 'Lonzo', desc: 'Filet mignon séché aux herbes du maquis corse. Une pièce d\'exception, au goût subtil et raffiné.' },
-  { img: '/produits/jambon_sec.png', nom: 'Jambon sec', desc: 'Affiné selon les méthodes ancestrales corses pendant de longs mois. Arrivée prochaine.' },
-  { img: '/produits/moutardes.png', nom: 'Moutardes', desc: 'Moutardes de caractère et spécialités artisanales corses.' },
-  { img: '/produits/miels.png', nom: 'Miels', desc: 'Maquis d\'automne et miellats du maquis — arômes de noisettes, châtaignes et myrtes du terroir corse.' },
-  { img: '/produits/terrines.png', nom: 'Terrines', desc: 'Figatellu, sanglier et à lustincat — des terrines généreuses aux saveurs authentiques du terroir.' },
-]
+const BASE = 'https://kpfjwpfjbemlchlksqzr.supabase.co/storage/v1/object/public/Photos/'
 
-if (typeof window !== 'undefined') {
-  produits.forEach(p => { const img = new window.Image(); img.src = p.img })
-}
+const produits = [
+  { img: BASE + 'saucisson_porc.png', nom: 'Saucisson de porc', desc: 'Nature ou aux myrtes, recettes traditionnelles corses. Un saucisson affiné avec soin, aux saveurs intenses du terroir corse.' },
+  { img: BASE + 'saucisson_sanglier.png', nom: 'Saucisson de sanglier', desc: 'Saucisson de sanglier sauvage aux arômes puissants du maquis corse. Une spécialité rare et authentique.' },
+  { img: BASE + 'coppa.png', nom: 'Coppa', desc: 'Échine marinée et séchée selon les méthodes ancestrales. Sa texture fondante et ses arômes délicats en font une spécialité incontournable.' },
+  { img: BASE + 'lonzu_fermier.png', nom: 'Lonzo', desc: 'Filet mignon séché aux herbes du maquis corse. Une pièce d\'exception, au goût subtil et raffiné.' },
+  { img: BASE + 'jambon_sec.png', nom: 'Jambon sec', desc: 'Affiné selon les méthodes ancestrales corses pendant de longs mois. Arrivée prochaine.' },
+  { img: BASE + 'Moutardes.png', nom: 'Moutardes', desc: 'Moutardes de caractère et spécialités artisanales corses.' },
+  { img: BASE + 'miels.png', nom: 'Miels', desc: 'Maquis d\'automne et miellats du maquis — arômes de noisettes, châtaignes et myrtes du terroir corse.' },
+  { img: BASE + 'terrines.png', nom: 'Terrines', desc: 'Figatellu, sanglier et à lustincat — des terrines généreuses aux saveurs authentiques du terroir.' },
+]
 
 export default function Produits() {
   const [index, setIndex] = useState(0)
@@ -31,59 +29,38 @@ export default function Produits() {
   }, [])
 
   return (
-    <section id="produits" style={{
-      height: '100vh',
-      position: 'relative',
-      display: 'flex',
-      flexDirection: 'column',
-      overflow: 'hidden',
-    }}>
-      <div style={{position: 'absolute', inset: 0, backgroundImage: 'url(/texture.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0}} />
+    <section id="produits" style={{height: '100vh', position: 'relative', display: 'flex', flexDirection: 'column', overflow: 'hidden'}}>
+      <div style={{position: 'absolute', inset: 0, backgroundImage: `url(${BASE}texture.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0}} />
       <div style={{position: 'absolute', inset: 0, background: 'rgba(15,10,5,0.82)', zIndex: 1}} />
 
       <div style={{position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', padding: isMobile ? '72px 16px 24px' : '56px 80px 30px', gap: isMobile ? '8px' : '12px'}}>
 
-        {/* TITRE */}
         <div style={{textAlign: 'center', flexShrink: 0}}>
           <p style={{fontSize: '11px', letterSpacing: '3px', textTransform: 'uppercase', color: '#8b1a1a', fontWeight: 700, marginBottom: '4px'}}>Nos spécialités</p>
           <h2 style={{fontFamily: 'Playfair Display, serif', fontSize: isMobile ? '20px' : '24px', fontWeight: 700, color: '#f5ebe0'}}>Charcuteries et produits du terroir</h2>
         </div>
 
-        {/* VIGNETTES */}
         <div style={{display: 'flex', gap: '6px', overflowX: 'auto', maxWidth: '100%', padding: '4px 0', scrollbarWidth: 'none', flexShrink: 0}}>
           {produits.map((prod, i) => (
             <div key={i} onClick={() => setIndex(i)} style={{
-              flexShrink: 0,
-              width: isMobile ? '40px' : '52px',
-              height: isMobile ? '40px' : '52px',
+              flexShrink: 0, width: isMobile ? '40px' : '52px', height: isMobile ? '40px' : '52px',
               borderRadius: '4px', overflow: 'hidden', cursor: 'pointer',
               border: i === index ? '2px solid #8b1a1a' : '2px solid rgba(255,255,255,0.1)',
-              opacity: i === index ? 1 : 0.5,
-              transition: 'all 0.2s ease',
-              background: 'rgba(0,0,0,0.3)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              opacity: i === index ? 1 : 0.5, transition: 'all 0.2s ease',
+              background: 'rgba(0,0,0,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
               <img src={prod.img} alt={prod.nom} style={{width: '100%', height: '100%', objectFit: 'contain'}} />
             </div>
           ))}
         </div>
 
-        {/* PHOTO GRANDE */}
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', width: '100%', height: isMobile ? '35vh' : '42vh', flexShrink: 0}}>
-          <img
-            key={index}
-            src={p.img}
-            alt={p.nom}
-            style={{
-              maxHeight: isMobile ? '35vh' : '42vh',
-              maxWidth: '100%',
-              objectFit: 'contain',
-              display: 'block',
-              animation: 'fadeIn 0.4s ease',
-              filter: isUnavailable ? 'grayscale(100%)' : 'none',
-              opacity: isUnavailable ? 0.5 : 1,
-            }}
-          />
+          <img key={index} src={p.img} alt={p.nom} style={{
+            maxHeight: isMobile ? '35vh' : '42vh', maxWidth: '100%', objectFit: 'contain', display: 'block',
+            animation: 'fadeIn 0.4s ease',
+            filter: isUnavailable ? 'grayscale(100%)' : 'none',
+            opacity: isUnavailable ? 0.5 : 1,
+          }} />
           {isUnavailable && (
             <div style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'rgba(0,0,0,0.6)', padding: '10px 20px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.2)'}}>
               <p style={{fontSize: '12px', letterSpacing: '2px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)'}}>Bientôt disponible</p>
@@ -91,7 +68,6 @@ export default function Produits() {
           )}
         </div>
 
-        {/* NOM + DESC + FLÈCHES */}
         <div key={`text-${index}`} style={{textAlign: 'center', flexShrink: 0, animation: 'fadeIn 0.4s ease', padding: isMobile ? '0 8px' : '0'}}>
           <div style={{width: '32px', height: '2px', background: '#8b1a1a', margin: '0 auto 8px'}} />
           <p style={{fontFamily: 'Playfair Display, serif', fontSize: isMobile ? '18px' : '20px', fontWeight: 700, color: '#f5ebe0', marginBottom: '4px'}}>{p.nom}</p>
@@ -105,7 +81,6 @@ export default function Produits() {
         </div>
 
       </div>
-
       <style>{`@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }`}</style>
     </section>
   )

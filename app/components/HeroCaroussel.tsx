@@ -7,7 +7,7 @@ export default function HeroCaroussel() {
     }}>
       <div style={{
         position: 'absolute', inset: 0,
-        backgroundImage: 'url(/visuel-bg-3.png)',
+        backgroundImage: 'url(https://kpfjwpfjbemlchlksqzr.supabase.co/storage/v1/object/public/Photos/visuel-bg-1.png)',
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
         backgroundRepeat: 'no-repeat',
@@ -21,7 +21,7 @@ export default function HeroCaroussel() {
           justifyContent: 'center', marginBottom: '24px', flexShrink: 0,
           boxShadow: '0 0 40px rgba(255,255,255,0.15), 0 8px 32px rgba(0,0,0,0.4)',
         }}>
-          <img src="/logo.png" alt="Saveurs Corses" style={{width: '200px', height: '200px', objectFit: 'contain', display: 'block'}} />
+          <img src="https://kpfjwpfjbemlchlksqzr.supabase.co/storage/v1/object/public/Photos/logo.png" alt="Saveurs Corses" style={{width: '200px', height: '200px', objectFit: 'contain', display: 'block'}} />
         </div>
         <p className="text-xs tracking-widest uppercase mb-4" style={{color: 'rgba(255,255,255,0.7)'}}>Charcuteries & spécialités corses · Venette, Oise</p>
         <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight" style={{color: '#ffffff'}}>
