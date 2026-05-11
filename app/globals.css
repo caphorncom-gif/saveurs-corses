@@ -10,9 +10,7 @@
   --texte-muted: #c8b49a;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Lato', sans-serif;
@@ -20,16 +18,21 @@ body {
   color: var(--creme);
   overflow: hidden;
   height: 100vh;
+  font-size: 16px;
+  line-height: 1.7;
 }
+
+h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); }
+h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); }
+h3 { font-size: clamp(1.2rem, 2vw, 1.6rem); }
+p  { font-size: 1rem; line-height: 1.8; }
 
 section {
   scroll-snap-align: start;
   height: 100vh;
 }
 
-h1, h2, h3 {
-  font-family: 'Playfair Display', serif;
-}
+h1, h2, h3 { font-family: 'Playfair Display', serif; }
 
 .scroll-container {
   height: 100vh;
@@ -37,10 +40,7 @@ h1, h2, h3 {
   scroll-behavior: smooth;
   scrollbar-width: none;
 }
-
-.scroll-container::-webkit-scrollbar {
-  display: none;
-}
+.scroll-container::-webkit-scrollbar { display: none; }
 
 input::placeholder, textarea::placeholder {
   color: rgba(160,128,96,0.5);
@@ -50,30 +50,22 @@ input::placeholder, textarea::placeholder {
   transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform: scale(1);
 }
+.hero-bg:hover .hero-img { transform: scale(1.06); }
 
-.hero-bg:hover .hero-img {
-  transform: scale(1.06);
-}
+.btn-hero-primary { transition: background 0.3s ease, transform 0.2s ease; }
+.btn-hero-primary:hover { background: #6b1212 !important; transform: translateY(-2px); }
 
-.btn-hero-primary {
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-.btn-hero-primary:hover {
-  background: #6b1212 !important;
-  transform: translateY(-2px);
-}
-
-.btn-hero-outline {
-  transition: background 0.3s ease, color 0.3s ease;
-}
-.btn-hero-outline:hover {
-  background: rgba(255,255,255,0.15) !important;
-}
+.btn-hero-outline { transition: background 0.3s ease, color 0.3s ease; }
+.btn-hero-outline:hover { background: rgba(255,255,255,0.15) !important; }
 
 .texte-justifie {
   text-align: justify;
   hyphens: auto;
   -webkit-hyphens: auto;
-  -ms-hyphens: auto;
   word-spacing: -0.05em;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
