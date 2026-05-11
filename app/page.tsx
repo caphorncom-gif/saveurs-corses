@@ -46,12 +46,12 @@ export default function Home() {
               onMouseLeave={e2 => { e2.currentTarget.style.transform = 'translateX(0)'; e2.currentTarget.style.boxShadow = '0 1px 4px rgba(26,10,2,0.04)' }}
               >
                 <div style={{textAlign: 'center', minWidth: '44px', flexShrink: 0, borderRight: '1px solid #e8d5c4', paddingRight: '12px'}}>
-                  <p style={{fontFamily: 'Playfair Display, serif', fontSize: e.jour.length > 2 ? '16px' : '22px', fontWeight: 700, color: '#8b1a1a', lineHeight: 1}}>{e.jour}</p>
-                  <p style={{fontSize: '9px', letterSpacing: '1.5px', textTransform: 'uppercase', color: '#a08060', marginTop: '2px'}}>{e.mois}</p>
+                  <p style={{fontFamily: 'Playfair Display, serif', fontSize: e.jour.length > 2 ? '18px' : '26px', fontWeight: 700, color: '#8b1a1a', lineHeight: 1}}>{e.jour}</p>
+                  <p style={{fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: '#a08060', marginTop: '2px'}}>{e.mois}</p>
                 </div>
                 <div style={{flex: 1, minWidth: 0}}>
-                  <p style={{fontSize: '14px', fontWeight: 700, color: '#1a0a02', marginBottom: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>{e.lieu}</p>
-                  <p style={{fontSize: '12px', color: '#5a3a2a', lineHeight: 1.4}}>{e.detail}</p>
+                  <p style={{fontSize: '15px', fontWeight: 700, color: '#1a0a02', marginBottom: '3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>{e.lieu}</p>
+                  <p style={{fontSize: '13px', color: '#5a3a2a', lineHeight: 1.5}}>{e.detail}</p>
                 </div>
                 <span style={{
                   fontSize: '9px', letterSpacing: '1px', textTransform: 'uppercase',
@@ -66,8 +66,8 @@ export default function Home() {
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', background: '#1a0a02', borderRadius: '6px', flexShrink: 0}}>
             <p style={{fontFamily: 'Playfair Display, serif', fontSize: 'clamp(12px, 2vw, 15px)', fontWeight: 700, color: '#f5ebe0'}}>Vous souhaitez nous accueillir ?</p>
             <a href="#contact" style={{flexShrink: 0, background: '#8b1a1a', color: '#fff', padding: '8px 14px', borderRadius: '3px', fontSize: '11px', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', textDecoration: 'none', marginLeft: '12px'}}
-            onMouseEnter={e => (e.currentTarget.style.background = '#6b1212')}
-            onMouseLeave={e => (e.currentTarget.style.background = '#8b1a1a')}
+              onMouseEnter={e => (e.currentTarget.style.background = '#6b1212')}
+              onMouseLeave={e => (e.currentTarget.style.background = '#8b1a1a')}
             >Nous contacter</a>
           </div>
         </div>
