@@ -7,7 +7,7 @@ export default function HeroCaroussel() {
     }}>
       <div style={{
         position: 'absolute', inset: 0,
-        backgroundImage: 'url(https://kpfjwpfjbemlchlksqzr.supabase.co/storage/v1/object/public/Photos/visuel-bg-1.png)',
+        backgroundImage: 'url(https://kpfjwpfjbemlchlksqzr.supabase.co/storage/v1/object/public/Photos/hero-bg.png)',
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
         backgroundRepeat: 'no-repeat',
