@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const photos = [
   'https://rectoversomagazine.fr/api/images/venue/recWWIpNxF8k3YcIq?index=0',
@@ -12,8 +12,8 @@ const photos = [
 function StatItem({ valeur, label }: { valeur: string, label: string, delay: number }) {
   return (
     <div style={{ borderLeft: '3px solid #8b1a1a', paddingLeft: '16px', flexShrink: 0 }}>
-      <p style={{ fontFamily: 'Playfair Display, serif', fontSize: '26px', fontWeight: 700, color: '#8b1a1a', lineHeight: 1 }}>{valeur}</p>
-      <p style={{ fontSize: '13px', color: '#5a3a2a', marginTop: '4px' }}>{label}</p>
+      <p style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(20px, 4vw, 26px)', fontWeight: 700, color: '#8b1a1a', lineHeight: 1 }}>{valeur}</p>
+      <p style={{ fontSize: 'clamp(12px, 2vw, 13px)', color: '#5a3a2a', marginTop: '4px' }}>{label}</p>
     </div>
   )
 }
@@ -36,13 +36,17 @@ export default function APropos() {
 
   return (
     <section id="apropos" style={{
-      background: '#fffaf6', height: '100vh',
-      display: 'flex', alignItems: isMobile ? 'flex-start' : 'center',
+      background: '#fffaf6',
+      minHeight: '100dvh',
+      height: isMobile ? 'auto' : '100dvh',
+      display: 'flex',
+      alignItems: isMobile ? 'flex-start' : 'center',
       justifyContent: 'center',
       flexDirection: isMobile ? 'column' : 'row',
       gap: isMobile ? '20px' : '56px',
-      padding: isMobile ? '72px 24px 24px' : '80px 120px 60px',
-      overflowY: isMobile ? 'auto' : 'hidden',
+      padding: isMobile ? '80px 20px 40px' : '80px 120px 60px',
+      overflowY: 'auto',
+      boxSizing: 'border-box',
     }}>
 
       {/* CAROUSEL */}
@@ -50,7 +54,8 @@ export default function APropos() {
         position: 'relative', width: '100%',
         flexGrow: 0, flexShrink: 0,
         flexBasis: isMobile ? 'auto' : '38%',
-        height: isMobile ? '200px' : '65%',
+        height: isMobile ? '220px' : '65%',
+        minHeight: isMobile ? '220px' : 'auto',
         overflow: 'hidden', borderRadius: '8px',
         border: '0.5px solid #e8d5c4',
       }}>
@@ -77,14 +82,14 @@ export default function APropos() {
       {/* TEXTE */}
       <div style={{
         flexBasis: isMobile ? 'auto' : '38%', width: '100%',
-        display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '20px',
+        display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '16px',
       }}>
         <div>
           <p style={{ fontSize: '12px', letterSpacing: '3px', textTransform: 'uppercase', color: '#8b1a1a', fontWeight: 700, marginBottom: '10px' }}>Qui sommes-nous</p>
-          <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: isMobile ? '22px' : '28px', fontWeight: 700, color: '#1a0a02', lineHeight: 1.3, marginBottom: '16px' }}>
+          <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: isMobile ? '22px' : '28px', fontWeight: 700, color: '#1a0a02', lineHeight: 1.3, marginBottom: '14px' }}>
             Une passion pour les traditions culinaires de l'Île de Beauté
           </h2>
-          <p style={{ fontSize: '15px', lineHeight: 1.8, color: '#5a3a2a', marginBottom: '10px' }}>
+          <p style={{ fontSize: 'clamp(14px, 2.5vw, 15px)', lineHeight: 1.8, color: '#5a3a2a', marginBottom: '10px' }}>
             Saveurs Corses est une petite entreprise passionnée, dédiée à la mise en valeur des traditions culinaires corses. Présente sur les marchés et dans les galeries marchandes, elle propose une sélection rigoureuse de produits authentiques issus d'un savoir-faire ancestral.
           </p>
           {!isMobile && (
@@ -97,7 +102,7 @@ export default function APropos() {
           <span>📍 Venette, 60280 —</span>
           <strong style={{ color: '#8b1a1a' }}>06 58 58 95 80</strong>
         </div>
-        <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '20px', paddingTop: '14px', borderTop: '1px solid #e8d5c4' }}>
+        <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '16px', paddingTop: '14px', borderTop: '1px solid #e8d5c4' }}>
           <StatItem valeur="100%" label="Produits corses authentiques" delay={0} />
           <StatItem valeur="Artisan" label="Producteurs sélectionnés" delay={200} />
           <StatItem valeur="Local" label="Présent dans l'Oise" delay={400} />

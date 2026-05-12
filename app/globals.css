@@ -17,25 +17,18 @@ body {
   background: var(--brun);
   color: var(--creme);
   overflow: hidden;
-  height: 100vh;
+  height: 100dvh;
   font-size: 16px;
   line-height: 1.7;
 }
 
-h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); }
-h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); }
-h3 { font-size: clamp(1.2rem, 2vw, 1.6rem); }
-p  { font-size: 1rem; line-height: 1.8; }
-
 section {
   scroll-snap-align: start;
-  height: 100vh;
+  min-height: 100dvh;
 }
 
-h1, h2, h3 { font-family: 'Playfair Display', serif; }
-
 .scroll-container {
-  height: 100vh;
+  height: 100dvh;
   overflow-y: scroll;
   scroll-behavior: smooth;
   scrollbar-width: none;
