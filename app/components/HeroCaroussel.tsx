@@ -16,8 +16,8 @@ export default function HeroCaroussel() {
       <div style={{position: 'absolute', inset: 0, background: 'rgba(10,5,2,0.60)', zIndex: 1}} />
       <div style={{position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 16px'}}>
         <div style={{
-          width: 'clamp(160px, 40vw, 260px)',
-          height: 'clamp(160px, 40vw, 260px)',
+          width: 'clamp(160px, 25vw, 220px)',
+          height: 'clamp(160px, 25vw, 220px)',
           borderRadius: '50%',
           background: '#ffffff', display: 'flex', alignItems: 'center',
           justifyContent: 'center', marginBottom: '20px', flexShrink: 0,
