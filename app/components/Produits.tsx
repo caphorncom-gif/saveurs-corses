@@ -5,7 +5,8 @@ import { useState, useEffect } from 'react'
 const BASE = 'https://kpfjwpfjbemlchlksqzr.supabase.co/storage/v1/object/public/Photos/'
 
 const produits = [
-  { img: BASE + 'saucisson_porc.png', nom: 'Saucisson de porc', desc: 'Nature ou aux myrtes, recettes traditionnelles corses. Un saucisson affiné avec soin, aux saveurs intenses du terroir corse.' },
+  { img: BASE + 'saucisson_porc.png', nom: 'Saucisson nature', desc: 'Recette traditionnelle corse, affiné avec soin. Saveurs intenses et authentiques du terroir corse.' },
+  { img: BASE + 'saucisson_porc.png', nom: 'Saucisson aux myrtes', desc: 'Saucisson de porc parfumé aux baies de myrte du maquis corse. Une recette emblématique aux arômes uniques.' },
   { img: BASE + 'saucisson_sanglier.png', nom: 'Saucisson de sanglier', desc: 'Saucisson de sanglier sauvage aux arômes puissants du maquis corse. Une spécialité rare et authentique.' },
   { img: BASE + 'coppa.png', nom: 'Coppa', desc: 'Échine marinée et séchée selon les méthodes ancestrales. Sa texture fondante et ses arômes délicats en font une spécialité incontournable.' },
   { img: BASE + 'lonzu_fermier.png', nom: 'Lonzo', desc: 'Filet mignon séché aux herbes du maquis corse. Une pièce d\'exception, au goût subtil et raffiné.' },
@@ -30,7 +31,6 @@ export default function Produits() {
 
   return (
     <section id="produits" style={{ height: '100vh', position: 'relative', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-      {/* Texture ardoise — opacité augmentée */}
       <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${BASE}texture.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0 }} />
       <div style={{ position: 'absolute', inset: 0, background: 'rgba(15,10,5,0.72)', zIndex: 1 }} />
 
@@ -82,6 +82,7 @@ export default function Produits() {
         </div>
 
       </div>
+      <style>{`@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }`}</style>
     </section>
   )
 }
