@@ -11,9 +11,9 @@ const produits = [
   { img: BASE + 'coppa.png', nom: 'Coppa', desc: 'Échine marinée et séchée selon les méthodes ancestrales. Sa texture fondante et ses arômes délicats en font une spécialité incontournable.' },
   { img: BASE + 'lonzu_fermier.png', nom: 'Lonzo', desc: 'Filet mignon séché aux herbes du maquis corse. Une pièce d\'exception, au goût subtil et raffiné.' },
   { img: BASE + 'jambon_sec.png', nom: 'Jambon sec', desc: 'Affiné selon les méthodes ancestrales corses pendant de longs mois. Arrivée prochaine.' },
-  { img: BASE + 'Moutardes.png', nom: 'Moutardes', desc: 'Moutardes de caractère et spécialités artisanales corses.' },
-  { img: BASE + 'miels.png', nom: 'Miels', desc: 'Maquis d\'automne et miellats du maquis — arômes de noisettes, châtaignes et myrtes du terroir corse.' },
-  { img: BASE + 'terrines.png', nom: 'Terrines', desc: 'Figatellu, sanglier et à lustincat — des terrines généreuses aux saveurs authentiques du terroir.' },
+  { img: BASE + 'Moutardes.webp', nom: 'Moutardes', desc: 'Moutardes de caractère et spécialités artisanales corses.' },
+  { img: BASE + 'miels.webp', nom: 'Miels', desc: 'Maquis d\'automne et miellats du maquis — arômes de noisettes, châtaignes et myrtes du terroir corse.' },
+  { img: BASE + 'terrines.webp', nom: 'Terrines', desc: 'Figatellu, sanglier et à lustincat — des terrines généreuses aux saveurs authentiques du terroir.' },
 ]
 
 export default function Produits() {
