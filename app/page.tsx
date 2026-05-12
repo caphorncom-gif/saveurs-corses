@@ -94,46 +94,47 @@ export default function Home() {
           </div>
 
           {/* LISTE AGENDA SCROLLABLE */}
-          <div
-            style={{display: 'flex', flexDirection: 'column', gap: '8px', overflowY: 'auto', maxHeight: '420px', paddingRight: '8px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(139,26,26,0.3) transparent'}}
-            onMouseEnter={e => { const el = e.currentTarget; el.style.pointerEvents = 'auto' }}
-          >
-            <style>{`
-              .agenda-list::-webkit-scrollbar { width: 4px; }
-              .agenda-list::-webkit-scrollbar-track { background: transparent; }
-              .agenda-list::-webkit-scrollbar-thumb { background: rgba(139,26,26,0.3); border-radius: 2px; }
-              .agenda-list::-webkit-scrollbar-thumb:hover { background: rgba(139,26,26,0.6); }
-            `}</style>
-            {expositions.map((e) => (
-              <div key={e.lieu + e.jour} style={{
-                display: 'flex', gap: '16px', alignItems: 'center',
-                padding: '14px 16px', background: '#fff',
-                borderLeft: `3px solid ${e.tag === 'Exposition' ? '#8b1a1a' : e.tag === 'Salon' ? '#6b3fa0' : '#d4820a'}`,
-                border: '0.5px solid #e8d5c4', borderLeftWidth: '3px',
-                borderRadius: '4px', transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                boxShadow: '0 1px 4px rgba(26,10,2,0.04)',
-              }}
-              onMouseEnter={e2 => { e2.currentTarget.style.transform = 'translateX(4px)'; e2.currentTarget.style.boxShadow = '0 4px 20px rgba(139,26,26,0.1)' }}
-              onMouseLeave={e2 => { e2.currentTarget.style.transform = 'translateX(0)'; e2.currentTarget.style.boxShadow = '0 1px 4px rgba(26,10,2,0.04)' }}
-              >
-                <div style={{textAlign: 'center', minWidth: '44px', flexShrink: 0, borderRight: '1px solid #e8d5c4', paddingRight: '12px'}}>
-                  <p style={{fontFamily: 'Playfair Display, serif', fontSize: e.jour.length > 2 ? '18px' : '26px', fontWeight: 700, color: e.tag === 'Exposition' ? '#8b1a1a' : e.tag === 'Salon' ? '#6b3fa0' : '#d4820a', lineHeight: 1}}>{e.jour}</p>
-                  <p style={{fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: '#a08060', marginTop: '2px'}}>{e.mois}</p>
-                </div>
-                <div style={{flex: 1, minWidth: 0}}>
-                  <p style={{fontSize: '15px', fontWeight: 700, color: '#1a0a02', marginBottom: '3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>{e.lieu}</p>
-                  <p style={{fontSize: '13px', color: '#5a3a2a', lineHeight: 1.5}}>{e.detail}</p>
-                </div>
-                <span style={{
-                  fontSize: '9px', letterSpacing: '1px', textTransform: 'uppercase',
-                  padding: '3px 8px', borderRadius: '2px', fontWeight: 700, flexShrink: 0,
-                  background: e.tag === 'Exposition' ? '#fef3ef' : e.tag === 'Salon' ? '#f3effe' : '#fef8ec',
-                  color: e.tag === 'Exposition' ? '#8b1a1a' : e.tag === 'Salon' ? '#6b3fa0' : '#d4820a',
-                  border: e.tag === 'Exposition' ? '0.5px solid rgba(139,26,26,0.2)' : e.tag === 'Salon' ? '0.5px solid rgba(107,63,160,0.2)' : '0.5px solid rgba(212,130,10,0.2)',
-                }}>{e.tag}</span>
-              </div>
-            ))}
-          </div>
+<div
+  className="agenda-list"
+  onWheel={e => e.stopPropagation()}
+  style={{display: 'flex', flexDirection: 'column', gap: '8px', overflowY: 'auto', maxHeight: '420px', paddingRight: '8px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(139,26,26,0.3) transparent'}}
+>
+  <style>{`
+    .agenda-list::-webkit-scrollbar { width: 4px; }
+    .agenda-list::-webkit-scrollbar-track { background: transparent; }
+    .agenda-list::-webkit-scrollbar-thumb { background: rgba(139,26,26,0.3); border-radius: 2px; }
+    .agenda-list::-webkit-scrollbar-thumb:hover { background: rgba(139,26,26,0.6); }
+  `}</style>
+  {expositions.map((e) => (
+    <div key={e.lieu + e.jour} style={{
+      display: 'flex', gap: '16px', alignItems: 'center',
+      padding: '14px 16px', background: '#fff',
+      borderLeft: `3px solid ${e.tag === 'Exposition' ? '#8b1a1a' : e.tag === 'Salon' ? '#6b3fa0' : '#d4820a'}`,
+      border: '0.5px solid #e8d5c4', borderLeftWidth: '3px',
+      borderRadius: '4px', transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+      boxShadow: '0 1px 4px rgba(26,10,2,0.04)',
+    }}
+    onMouseEnter={e2 => { e2.currentTarget.style.transform = 'translateX(4px)'; e2.currentTarget.style.boxShadow = '0 4px 20px rgba(139,26,26,0.1)' }}
+    onMouseLeave={e2 => { e2.currentTarget.style.transform = 'translateX(0)'; e2.currentTarget.style.boxShadow = '0 1px 4px rgba(26,10,2,0.04)' }}
+    >
+      <div style={{textAlign: 'center', minWidth: '44px', flexShrink: 0, borderRight: '1px solid #e8d5c4', paddingRight: '12px'}}>
+        <p style={{fontFamily: 'Playfair Display, serif', fontSize: e.jour.length > 2 ? '18px' : '26px', fontWeight: 700, color: e.tag === 'Exposition' ? '#8b1a1a' : e.tag === 'Salon' ? '#6b3fa0' : '#d4820a', lineHeight: 1}}>{e.jour}</p>
+        <p style={{fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: '#a08060', marginTop: '2px'}}>{e.mois}</p>
+      </div>
+      <div style={{flex: 1, minWidth: 0}}>
+        <p style={{fontSize: '15px', fontWeight: 700, color: '#1a0a02', marginBottom: '3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>{e.lieu}</p>
+        <p style={{fontSize: '13px', color: '#5a3a2a', lineHeight: 1.5}}>{e.detail}</p>
+      </div>
+      <span style={{
+        fontSize: '9px', letterSpacing: '1px', textTransform: 'uppercase',
+        padding: '3px 8px', borderRadius: '2px', fontWeight: 700, flexShrink: 0,
+        background: e.tag === 'Exposition' ? '#fef3ef' : e.tag === 'Salon' ? '#f3effe' : '#fef8ec',
+        color: e.tag === 'Exposition' ? '#8b1a1a' : e.tag === 'Salon' ? '#6b3fa0' : '#d4820a',
+        border: e.tag === 'Exposition' ? '0.5px solid rgba(139,26,26,0.2)' : e.tag === 'Salon' ? '0.5px solid rgba(107,63,160,0.2)' : '0.5px solid rgba(212,130,10,0.2)',
+      }}>{e.tag}</span>
+    </div>
+  ))}
+</div>
 
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', background: '#1a0a02', borderRadius: '6px', flexShrink: 0}}>
             <p style={{fontFamily: 'Playfair Display, serif', fontSize: 'clamp(12px, 2vw, 15px)', fontWeight: 700, color: '#f5ebe0'}}>Vous souhaitez nous accueillir ?</p>
