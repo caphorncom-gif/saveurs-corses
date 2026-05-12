@@ -138,7 +138,7 @@ export default function Home() {
 
       {/* SECTION 5 — AGENDA */}
       <section id="agenda" style={{
-  background: 'linear-gradient(135deg, #fff8f0 0%, #ead5b8 50%, #fff8f0 100%)',
+  background: 'linear-gradient(135deg, #fff8f0 0%, #e8cba8 50%, #fff8f0 100%)',
   height: '100vh',
   display: 'flex', alignItems: 'center', justifyContent: 'center',
   padding: 'clamp(56px, 8vw, 80px) clamp(16px, 8vw, 120px)',

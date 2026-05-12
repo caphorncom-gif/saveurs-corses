@@ -65,6 +65,7 @@ export default function Navbar() {
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-3"
+      /* COULEUR DU BACKGROUND */
         style={{background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', borderBottom: '0.5px solid rgba(26,10,2,0.1)'}}>
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', gap: '32px'}}>
           <div style={{height: '50px', display: 'flex', alignItems: 'center', flexShrink: 0}}>
