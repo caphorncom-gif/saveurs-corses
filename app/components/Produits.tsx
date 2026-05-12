@@ -32,7 +32,7 @@ export default function Produits() {
   return (
     <section id="produits" style={{ height: '100vh', position: 'relative', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${BASE}texture.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0 }} />
-      <div style={{ position: 'absolute', inset: 0, background: 'rgba(15,10,5,0.55)', zIndex: 1 }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'rgba(15,10,5,0.55)', zIndex: 1, transform: 'translateZ(0)', willChange: 'transform' }} />
 
       <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', padding: isMobile ? '72px 16px 24px' : '56px 80px 30px', gap: isMobile ? '10px' : '14px' }}>
 

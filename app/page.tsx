@@ -8,6 +8,15 @@ import Footer from './components/Footer'
 
 const BASE = 'https://kpfjwpfjbemlchlksqzr.supabase.co/storage/v1/object/public/Photos/'
 
+const galeriePhotos = [
+  { src: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80', alt: 'Charcuterie corse' },
+  { src: 'https://images.unsplash.com/photo-1601924351433-3d7b8d16ace1?w=800&q=80', alt: 'Produits du terroir' },
+  { src: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80', alt: 'Marché local' },
+  { src: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=800&q=80', alt: 'Exposition' },
+  { src: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80', alt: 'Spécialités corses' },
+  { src: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80', alt: 'Produits artisanaux' },
+]
+
 function ContactForm() {
   const [formData, setFormData] = useState({ nom: '', email: '', sujet: '', message: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
@@ -74,67 +83,129 @@ export default function Home() {
       <APropos />
       <Produits />
 
-      {/* SECTION 4 — AGENDA */}
+      {/* SECTION 4 — GALERIE */}
+      <section id="galerie" style={{
+        background: '#1a0a02',
+        height: '100vh',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+        padding: 'clamp(72px, 8vw, 100px) clamp(16px, 6vw, 80px) clamp(40px, 6vw, 60px)',
+        position: 'relative', overflow: 'hidden',
+      }}>
+        <div style={{position: 'absolute', inset: 0, backgroundImage: `url(${BASE}texture.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0, opacity: 0.15, transform: 'translateZ(0)', willChange: 'transform'}} />
+        <div style={{position: 'relative', zIndex: 1, width: '100%', maxWidth: '1100px', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+          <div style={{textAlign: 'center', marginBottom: '32px'}}>
+            <p style={{fontSize: '12px', letterSpacing: '3px', textTransform: 'uppercase', color: '#8b1a1a', fontWeight: 700, marginBottom: '10px'}}>Galerie</p>
+            <h2 style={{fontFamily: 'Playfair Display, serif', fontSize: 'clamp(24px, 5vw, 36px)', fontWeight: 700, color: '#f5ebe0', marginBottom: '10px'}}>
+              Nos salons & expositions
+            </h2>
+            <p style={{fontSize: '15px', color: 'rgba(245,235,224,0.6)', maxWidth: '480px', margin: '0 auto'}}>
+              Retrouvez-nous sur les marchés et galeries de l'Oise.
+            </p>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gridTemplateRows: 'repeat(2, 1fr)',
+            gap: '12px',
+            flex: 1,
+            maxHeight: '55vh',
+          }}>
+            {galeriePhotos.map((photo, i) => (
+              <div key={i} style={{
+                borderRadius: '6px',
+                overflow: 'hidden',
+                border: '0.5px solid rgba(255,255,255,0.1)',
+                position: 'relative',
+                background: 'rgba(255,255,255,0.05)',
+                transform: 'translateZ(0)',
+              }}>
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  loading="lazy"
+                  style={{width: '100%', height: '100%', objectFit: 'cover', display: 'block'}}
+                />
+              </div>
+            ))}
+          </div>
+
+          <p style={{textAlign: 'center', marginTop: '20px', fontSize: '11px', color: 'rgba(245,235,224,0.25)', fontStyle: 'italic'}}>
+            Photos temporaires — les vraies photos des salons seront ajoutées prochainement
+          </p>
+        </div>
+      </section>
+
+      {/* SECTION 5 — AGENDA */}
       <section id="agenda" style={{
         background: '#fffaf6', height: '100vh',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: 'clamp(56px, 8vw, 80px) clamp(16px, 8vw, 120px)',
         gap: '64px', overflow: 'hidden',
       }}>
-        <div className="hidden md:block" style={{flexGrow: 0, flexShrink: 0, flexBasis: '38%', height: '600px', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(26,10,2,0.08)', border: '0.5px solid #e8d5c4'}}>
-          <iframe src="https://maps.google.com/maps?q=Venette,60280,France&output=embed&z=13" width="100%" height="100%" style={{border: 0, display: 'block'}} allowFullScreen loading="lazy" />
+        <div className="hidden md:block" style={{flexGrow: 0, flexShrink: 0, flexBasis: '38%', height: '600px', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(26,10,2,0.08)', border: '0.5px solid #e8d5c4', position: 'relative', background: '#f5f0eb'}}>
+          <div style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px', zIndex: 0}}>
+            <div style={{width: '40px', height: '40px', borderRadius: '50%', background: '#8b1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+              <span style={{color: '#fff', fontSize: '20px'}}>📍</span>
+            </div>
+            <p style={{fontSize: '13px', color: '#a08060', fontFamily: 'Playfair Display, serif'}}>Chargement de la carte...</p>
+          </div>
+          <iframe src="https://maps.google.com/maps?q=Venette,60280,France&output=embed&z=13" width="100%" height="100%" style={{border: 0, display: 'block', position: 'relative', zIndex: 1}} allowFullScreen loading="lazy" />
         </div>
+
         <div style={{flexGrow: 1, flexShrink: 1, flexBasis: 'auto', width: '100%', maxWidth: '480px', maxHeight: '600px', display: 'flex', flexDirection: 'column', gap: '8px', justifyContent: 'flex-start'}}>
           <div>
             <p style={{fontSize: '12px', letterSpacing: '3px', textTransform: 'uppercase', color: '#8b1a1a', fontWeight: 700, marginBottom: '8px'}}>Agenda</p>
             <h2 style={{fontFamily: 'Playfair Display, serif', fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: 700, color: '#1a0a02', marginBottom: '8px', lineHeight: 1.2}}>Retrouvez-nous<br />près de chez vous</h2>
           </div>
-          <div className="block md:hidden" style={{width: '100%', height: '160px', borderRadius: '8px', overflow: 'hidden', border: '0.5px solid #e8d5c4', flexShrink: 0}}>
-            <iframe src="https://maps.google.com/maps?q=Venette,60280,France&output=embed&z=13" width="100%" height="100%" style={{border: 0, display: 'block'}} allowFullScreen loading="lazy" />
+          <div className="block md:hidden" style={{width: '100%', height: '160px', borderRadius: '8px', overflow: 'hidden', border: '0.5px solid #e8d5c4', flexShrink: 0, position: 'relative', background: '#f5f0eb'}}>
+            <div style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 0}}>
+              <p style={{fontSize: '12px', color: '#a08060'}}>Chargement de la carte...</p>
+            </div>
+            <iframe src="https://maps.google.com/maps?q=Venette,60280,France&output=embed&z=13" width="100%" height="100%" style={{border: 0, display: 'block', position: 'relative', zIndex: 1}} allowFullScreen loading="lazy" />
           </div>
 
-          {/* LISTE AGENDA SCROLLABLE */}
-<div
-  className="agenda-list"
-  onWheel={e => e.stopPropagation()}
-  style={{display: 'flex', flexDirection: 'column', gap: '8px', overflowY: 'auto', maxHeight: '420px', paddingRight: '8px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(139,26,26,0.3) transparent'}}
->
-  <style>{`
-    .agenda-list::-webkit-scrollbar { width: 4px; }
-    .agenda-list::-webkit-scrollbar-track { background: transparent; }
-    .agenda-list::-webkit-scrollbar-thumb { background: rgba(139,26,26,0.3); border-radius: 2px; }
-    .agenda-list::-webkit-scrollbar-thumb:hover { background: rgba(139,26,26,0.6); }
-  `}</style>
-  {expositions.map((e) => (
-    <div key={e.lieu + e.jour} style={{
-      display: 'flex', gap: '16px', alignItems: 'center',
-      padding: '14px 16px', background: '#fff',
-      borderLeft: `3px solid ${e.tag === 'Exposition' ? '#8b1a1a' : e.tag === 'Salon' ? '#6b3fa0' : '#d4820a'}`,
-      border: '0.5px solid #e8d5c4', borderLeftWidth: '3px',
-      borderRadius: '4px', transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-      boxShadow: '0 1px 4px rgba(26,10,2,0.04)',
-    }}
-    onMouseEnter={e2 => { e2.currentTarget.style.transform = 'translateX(4px)'; e2.currentTarget.style.boxShadow = '0 4px 20px rgba(139,26,26,0.1)' }}
-    onMouseLeave={e2 => { e2.currentTarget.style.transform = 'translateX(0)'; e2.currentTarget.style.boxShadow = '0 1px 4px rgba(26,10,2,0.04)' }}
-    >
-      <div style={{textAlign: 'center', minWidth: '44px', flexShrink: 0, borderRight: '1px solid #e8d5c4', paddingRight: '12px'}}>
-        <p style={{fontFamily: 'Playfair Display, serif', fontSize: e.jour.length > 2 ? '18px' : '26px', fontWeight: 700, color: e.tag === 'Exposition' ? '#8b1a1a' : e.tag === 'Salon' ? '#6b3fa0' : '#d4820a', lineHeight: 1}}>{e.jour}</p>
-        <p style={{fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: '#a08060', marginTop: '2px'}}>{e.mois}</p>
-      </div>
-      <div style={{flex: 1, minWidth: 0}}>
-        <p style={{fontSize: '15px', fontWeight: 700, color: '#1a0a02', marginBottom: '3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>{e.lieu}</p>
-        <p style={{fontSize: '13px', color: '#5a3a2a', lineHeight: 1.5}}>{e.detail}</p>
-      </div>
-      <span style={{
-        fontSize: '9px', letterSpacing: '1px', textTransform: 'uppercase',
-        padding: '3px 8px', borderRadius: '2px', fontWeight: 700, flexShrink: 0,
-        background: e.tag === 'Exposition' ? '#fef3ef' : e.tag === 'Salon' ? '#f3effe' : '#fef8ec',
-        color: e.tag === 'Exposition' ? '#8b1a1a' : e.tag === 'Salon' ? '#6b3fa0' : '#d4820a',
-        border: e.tag === 'Exposition' ? '0.5px solid rgba(139,26,26,0.2)' : e.tag === 'Salon' ? '0.5px solid rgba(107,63,160,0.2)' : '0.5px solid rgba(212,130,10,0.2)',
-      }}>{e.tag}</span>
-    </div>
-  ))}
-</div>
+          <div
+            className="agenda-list"
+            onWheel={e => e.stopPropagation()}
+            style={{display: 'flex', flexDirection: 'column', gap: '8px', overflowY: 'auto', maxHeight: '420px', paddingRight: '8px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(139,26,26,0.3) transparent'}}
+          >
+            <style>{`
+              .agenda-list::-webkit-scrollbar { width: 4px; }
+              .agenda-list::-webkit-scrollbar-track { background: transparent; }
+              .agenda-list::-webkit-scrollbar-thumb { background: rgba(139,26,26,0.3); border-radius: 2px; }
+              .agenda-list::-webkit-scrollbar-thumb:hover { background: rgba(139,26,26,0.6); }
+            `}</style>
+            {expositions.map((e) => (
+              <div key={e.lieu + e.jour} style={{
+                display: 'flex', gap: '16px', alignItems: 'center',
+                padding: '14px 16px', background: '#fff',
+                borderLeft: `3px solid ${e.tag === 'Exposition' ? '#8b1a1a' : e.tag === 'Salon' ? '#6b3fa0' : '#d4820a'}`,
+                border: '0.5px solid #e8d5c4', borderLeftWidth: '3px',
+                borderRadius: '4px', transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                boxShadow: '0 1px 4px rgba(26,10,2,0.04)',
+              }}
+              onMouseEnter={e2 => { e2.currentTarget.style.transform = 'translateX(4px)'; e2.currentTarget.style.boxShadow = '0 4px 20px rgba(139,26,26,0.1)' }}
+              onMouseLeave={e2 => { e2.currentTarget.style.transform = 'translateX(0)'; e2.currentTarget.style.boxShadow = '0 1px 4px rgba(26,10,2,0.04)' }}
+              >
+                <div style={{textAlign: 'center', minWidth: '44px', flexShrink: 0, borderRight: '1px solid #e8d5c4', paddingRight: '12px'}}>
+                  <p style={{fontFamily: 'Playfair Display, serif', fontSize: e.jour.length > 2 ? '18px' : '26px', fontWeight: 700, color: e.tag === 'Exposition' ? '#8b1a1a' : e.tag === 'Salon' ? '#6b3fa0' : '#d4820a', lineHeight: 1}}>{e.jour}</p>
+                  <p style={{fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: '#a08060', marginTop: '2px'}}>{e.mois}</p>
+                </div>
+                <div style={{flex: 1, minWidth: 0}}>
+                  <p style={{fontSize: '15px', fontWeight: 700, color: '#1a0a02', marginBottom: '3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>{e.lieu}</p>
+                  <p style={{fontSize: '13px', color: '#5a3a2a', lineHeight: 1.5}}>{e.detail}</p>
+                </div>
+                <span style={{
+                  fontSize: '9px', letterSpacing: '1px', textTransform: 'uppercase',
+                  padding: '3px 8px', borderRadius: '2px', fontWeight: 700, flexShrink: 0,
+                  background: e.tag === 'Exposition' ? '#fef3ef' : e.tag === 'Salon' ? '#f3effe' : '#fef8ec',
+                  color: e.tag === 'Exposition' ? '#8b1a1a' : e.tag === 'Salon' ? '#6b3fa0' : '#d4820a',
+                  border: e.tag === 'Exposition' ? '0.5px solid rgba(139,26,26,0.2)' : e.tag === 'Salon' ? '0.5px solid rgba(107,63,160,0.2)' : '0.5px solid rgba(212,130,10,0.2)',
+                }}>{e.tag}</span>
+              </div>
+            ))}
+          </div>
 
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', background: '#1a0a02', borderRadius: '6px', flexShrink: 0}}>
             <p style={{fontFamily: 'Playfair Display, serif', fontSize: 'clamp(12px, 2vw, 15px)', fontWeight: 700, color: '#f5ebe0'}}>Vous souhaitez nous accueillir ?</p>
@@ -146,7 +217,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 5 — CONTACT */}
+      {/* SECTION 6 — CONTACT */}
       <section id="contact" style={{
         background: 'var(--brun)',
         height: 'calc(100vh - 80px)',
@@ -154,7 +225,7 @@ export default function Home() {
         padding: 'clamp(60px, 8vw, 80px) clamp(16px, 6vw, 80px)',
         position: 'relative', overflow: 'hidden',
       }}>
-        <div style={{position: 'absolute', inset: 0, backgroundImage: `url(${BASE}contact-bg.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0, opacity: 0.35}} />
+        <div style={{position: 'absolute', inset: 0, backgroundImage: `url(${BASE}contact-bg.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0, opacity: 0.35, transform: 'translateZ(0)', willChange: 'transform'}} />
         <div style={{position: 'relative', zIndex: 1, maxWidth: '900px', width: '100%', display: 'flex', flexDirection: 'column', gap: '16px', overflowY: 'auto', maxHeight: '90vh'}}>
           <div>
             <p style={{fontSize: '12px', letterSpacing: '3px', textTransform: 'uppercase', color: '#f5ebe0', fontWeight: 700, marginBottom: '8px'}}>Contact</p>
