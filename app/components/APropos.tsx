@@ -37,7 +37,7 @@ export default function APropos() {
   return (
     <section id="apropos" style={{
       /* COULEUR DU BACKGROUND */
-      background: 'linear-gradient(135deg, #fff8f0 0%, #e8cba8 50%, #fff8f0 100%)',
+      background: 'linear-gradient(135deg, #fffaf6 0%, #f0e0cc 50%, #fffaf6 100%)',
       minHeight: '100dvh',
       height: isMobile ? 'auto' : '100dvh',
       display: 'flex',
