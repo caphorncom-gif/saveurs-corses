@@ -1,10 +1,9 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
-import Image from 'next/image'
 
-const sections = ['accueil', 'apropos', 'produits', 'agenda', 'contact']
-const labels = ['Accueil', 'À propos', 'Produits', 'Agenda', 'Contact']
+const sections = ['accueil', 'apropos', 'produits', 'galerie', 'agenda', 'contact']
+const labels = ['Accueil', 'À propos', 'Produits', 'Galerie', 'Agenda', 'Contact']
 
 export default function Navbar() {
   const [active, setActive] = useState('accueil')
@@ -69,7 +68,7 @@ export default function Navbar() {
         style={{background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', borderBottom: '0.5px solid rgba(26,10,2,0.1)'}}>
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', gap: '32px'}}>
           <div style={{height: '50px', display: 'flex', alignItems: 'center', flexShrink: 0}}>
-          <img src="https://kpfjwpfjbemlchlksqzr.supabase.co/storage/v1/object/public/Photos/logo.png" alt="Saveurs Corses" style={{height: '48px', width: 'auto', objectFit: 'contain', mixBlendMode: 'multiply'}} />
+            <img src="https://kpfjwpfjbemlchlksqzr.supabase.co/storage/v1/object/public/Photos/logo.png" alt="Saveurs Corses" style={{height: '48px', width: 'auto', objectFit: 'contain', mixBlendMode: 'multiply'}} />
           </div>
           <div className="hidden md:flex gap-1">
             {sections.map((id, i) => (
