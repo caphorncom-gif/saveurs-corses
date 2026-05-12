@@ -66,7 +66,7 @@ export default function Navbar() {
     <>
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-3"
       /* COULEUR DU BACKGROUND */
-        style={{background: 'linear-gradient(135deg, #fffaf6 0%, #f0e0cc 50%, #fffaf6 100%)', backdropFilter: 'blur(10px)', borderBottom: '0.5px solid rgba(26,10,2,0.1)'}}>
+      style={{background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', borderBottom: '0.5px solid rgba(26,10,2,0.1)'}}>
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', gap: '32px'}}>
           <div style={{height: '50px', display: 'flex', alignItems: 'center', flexShrink: 0}}>
             <img src="https://kpfjwpfjbemlchlksqzr.supabase.co/storage/v1/object/public/Photos/logo.png" alt="Saveurs Corses" style={{height: '48px', width: 'auto', objectFit: 'contain', mixBlendMode: 'multiply'}} />
