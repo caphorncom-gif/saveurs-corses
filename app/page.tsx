@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react'
 import Produits from './components/Produits'
 import APropos from './components/APropos'
 import { expositions } from './data/expositions'
@@ -6,6 +7,66 @@ import HeroCarousel from './components/HeroCaroussel'
 import Footer from './components/Footer'
 
 const BASE = 'https://kpfjwpfjbemlchlksqzr.supabase.co/storage/v1/object/public/Photos/'
+
+function ContactForm() {
+  const [formData, setFormData] = useState({ nom: '', email: '', sujet: '', message: '' })
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('sending')
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+      if (res.ok) {
+        setStatus('success')
+        setFormData({ nom: '', email: '', sujet: '', message: '' })
+      } else setStatus('error')
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
+      <input type="text" placeholder="Votre nom" required value={formData.nom}
+        onChange={e => setFormData({...formData, nom: e.target.value})}
+        style={{width: '100%', padding: '13px 14px', fontSize: '14px', background: 'rgba(255,255,255,0.08)', border: '0.5px solid rgba(255,255,255,0.2)', color: '#f5ebe0', borderRadius: '4px', outline: 'none', boxSizing: 'border-box'}} />
+      <input type="email" placeholder="Votre e-mail" required value={formData.email}
+        onChange={e => setFormData({...formData, email: e.target.value})}
+        style={{width: '100%', padding: '13px 14px', fontSize: '14px', background: 'rgba(255,255,255,0.08)', border: '0.5px solid rgba(255,255,255,0.2)', color: '#f5ebe0', borderRadius: '4px', outline: 'none', boxSizing: 'border-box'}} />
+      <input type="text" placeholder="Sujet" required value={formData.sujet}
+        onChange={e => setFormData({...formData, sujet: e.target.value})}
+        style={{width: '100%', padding: '13px 14px', fontSize: '14px', background: 'rgba(255,255,255,0.08)', border: '0.5px solid rgba(255,255,255,0.2)', color: '#f5ebe0', borderRadius: '4px', outline: 'none', boxSizing: 'border-box'}} />
+      <textarea placeholder="Votre message..." rows={3} required value={formData.message}
+        onChange={e => setFormData({...formData, message: e.target.value})}
+        style={{width: '100%', padding: '13px 14px', fontSize: '14px', background: 'rgba(255,255,255,0.08)', border: '0.5px solid rgba(255,255,255,0.2)', color: '#f5ebe0', borderRadius: '4px', outline: 'none', resize: 'none', boxSizing: 'border-box'}} />
+
+      {status === 'success' && (
+        <p style={{fontSize: '13px', color: '#6fcf97', padding: '10px 14px', background: 'rgba(111,207,151,0.1)', borderRadius: '4px', border: '0.5px solid rgba(111,207,151,0.3)'}}>
+          ✅ Message envoyé ! Rodolphe vous répondra rapidement.
+        </p>
+      )}
+      {status === 'error' && (
+        <p style={{fontSize: '13px', color: '#eb5757', padding: '10px 14px', background: 'rgba(235,87,87,0.1)', borderRadius: '4px', border: '0.5px solid rgba(235,87,87,0.3)'}}>
+          ❌ Erreur lors de l'envoi. Réessayez ou appelez le 06 58 58 95 80.
+        </p>
+      )}
+
+      <button type="submit" disabled={status === 'sending'} style={{
+        alignSelf: 'flex-start', padding: '12px 28px', fontSize: '12px', fontWeight: 700,
+        letterSpacing: '1.5px', textTransform: 'uppercase', color: '#fff',
+        background: status === 'sending' ? '#6b1212' : '#8b1a1a',
+        border: 'none', borderRadius: '4px', cursor: status === 'sending' ? 'not-allowed' : 'pointer',
+      }}>
+        {status === 'sending' ? 'Envoi...' : 'Envoyer le message'}
+      </button>
+    </form>
+  )
+}
 
 export default function Home() {
   return (
@@ -121,15 +182,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <form style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
-              <input type="text" placeholder="Votre nom" style={{width: '100%', padding: '13px 14px', fontSize: '14px', background: 'rgba(255,255,255,0.08)', border: '0.5px solid rgba(255,255,255,0.2)', color: '#f5ebe0', borderRadius: '4px', outline: 'none', boxSizing: 'border-box'}} />
-              <input type="email" placeholder="Votre e-mail" style={{width: '100%', padding: '13px 14px', fontSize: '14px', background: 'rgba(255,255,255,0.08)', border: '0.5px solid rgba(255,255,255,0.2)', color: '#f5ebe0', borderRadius: '4px', outline: 'none', boxSizing: 'border-box'}} />
-              <input type="text" placeholder="Sujet" style={{width: '100%', padding: '13px 14px', fontSize: '14px', background: 'rgba(255,255,255,0.08)', border: '0.5px solid rgba(255,255,255,0.2)', color: '#f5ebe0', borderRadius: '4px', outline: 'none', boxSizing: 'border-box'}} />
-              <textarea placeholder="Votre message..." rows={3} style={{width: '100%', padding: '13px 14px', fontSize: '14px', background: 'rgba(255,255,255,0.08)', border: '0.5px solid rgba(255,255,255,0.2)', color: '#f5ebe0', borderRadius: '4px', outline: 'none', resize: 'none', boxSizing: 'border-box'}} />
-              <button type="submit" style={{alignSelf: 'flex-start', padding: '12px 28px', fontSize: '12px', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#fff', background: '#8b1a1a', border: 'none', borderRadius: '4px', cursor: 'pointer'}}>
-                Envoyer le message
-              </button>
-            </form>
+            <ContactForm />
           </div>
         </div>
       </section>
