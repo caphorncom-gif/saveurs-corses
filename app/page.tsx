@@ -137,12 +137,13 @@ export default function Home() {
       </section>
 
       {/* SECTION 5 — AGENDA */}
-      <section id="agenda" style={{
-        background: '#fffaf6', height: '100vh',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: 'clamp(56px, 8vw, 80px) clamp(16px, 8vw, 120px)',
-        gap: '64px', overflow: 'hidden',
-      }}>
+<section id="agenda" style={{
+  background: 'linear-gradient(135deg, #fffaf6 0%, #f0e6d6 50%, #fffaf6 100%)',
+  height: '100vh',
+  display: 'flex', alignItems: 'center', justifyContent: 'center',
+  padding: 'clamp(56px, 8vw, 80px) clamp(16px, 8vw, 120px)',
+  gap: '64px', overflow: 'hidden',
+}}>
         <div className="hidden md:block" style={{flexGrow: 0, flexShrink: 0, flexBasis: '38%', height: '600px', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(26,10,2,0.08)', border: '0.5px solid #e8d5c4', position: 'relative', background: '#f5f0eb'}}>
           <div style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px', zIndex: 0}}>
             <div style={{width: '40px', height: '40px', borderRadius: '50%', background: '#8b1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
