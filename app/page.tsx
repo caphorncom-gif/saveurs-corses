@@ -74,84 +74,95 @@ export default function Home() {
       <APropos />
       <Produits />
 
-     {/* SECTION 4 — GALERIE */}
-<section id="galerie" style={{
-  background: '#1a0a02',
-  height: '100vh',
-  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-  padding: 'clamp(72px, 8vw, 100px) clamp(16px, 6vw, 80px) clamp(40px, 6vw, 60px)',
-  position: 'relative', overflow: 'hidden',
-}}>
-  <div style={{position: 'absolute', inset: 0, backgroundImage: `url(${BASE}texture.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0, opacity: 0.15, transform: 'translateZ(0)', willChange: 'transform'}} />
-  <div style={{position: 'relative', zIndex: 1, width: '100%', maxWidth: '1100px', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-    <div style={{textAlign: 'center', marginBottom: '32px'}}>
-      <p style={{fontSize: '12px', letterSpacing: '3px', textTransform: 'uppercase', color: '#8b1a1a', fontWeight: 700, marginBottom: '10px'}}>Galerie</p>
-      <h2 style={{fontFamily: 'Playfair Display, serif', fontSize: 'clamp(24px, 5vw, 36px)', fontWeight: 700, color: '#f5ebe0', marginBottom: '10px'}}>
-        Nos salons & expositions
-      </h2>
-      <p style={{fontSize: '15px', color: 'rgba(245,235,224,0.6)', maxWidth: '480px', margin: '0 auto'}}>
-        Retrouvez-nous sur les marchés et galeries de l'Oise.
-      </p>
-    </div>
-
-    <div style={{
-      display: 'grid',
-      gridTemplateColumns: 'repeat(3, 1fr)',
-      gridTemplateRows: 'repeat(2, 1fr)',
-      gap: '12px',
-      flex: 1,
-      maxHeight: '55vh',
-    }}>
-      {[
-        'Salon de Compiègne',
-        'Leroy Merlin de Jaux',
-        'Carrefour Venette',
-        'Marché local',
-        'Exposition',
-        'Événement',
-      ].map((label, i) => (
-        <div key={i} style={{
-          borderRadius: '6px',
-          border: '0.5px solid rgba(255,255,255,0.1)',
-          background: 'rgba(255,255,255,0.04)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '12px',
-        }}>
-          <div style={{
-            width: '48px', height: '48px',
-            borderRadius: '50%',
-            background: 'rgba(139,26,26,0.25)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>
-            <span style={{fontSize: '20px'}}>📷</span>
+      {/* SECTION 4 — GALERIE */}
+      <section id="galerie" style={{
+        background: '#1a0a02',
+        height: '100vh',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+        padding: 'clamp(72px, 8vw, 100px) clamp(16px, 6vw, 80px) clamp(40px, 6vw, 60px)',
+        position: 'relative', overflow: 'hidden',
+      }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${BASE}texture.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0, opacity: 0.15, transform: 'translateZ(0)', willChange: 'transform' }} />
+        <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '1100px', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+            <p style={{ fontSize: '12px', letterSpacing: '3px', textTransform: 'uppercase', color: '#8b1a1a', fontWeight: 700, marginBottom: '10px' }}>Galerie</p>
+            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(24px, 5vw, 36px)', fontWeight: 700, color: '#f5ebe0', marginBottom: '10px' }}>
+              Nos salons & expositions
+            </h2>
+            <p style={{ fontSize: '15px', color: 'rgba(245,235,224,0.6)', maxWidth: '480px', margin: '0 auto' }}>
+              Retrouvez-nous sur les marchés et galeries de l'Oise.
+            </p>
           </div>
-          <p style={{
-            fontSize: '12px',
-            color: 'rgba(245,235,224,0.35)',
-            textAlign: 'center',
-            padding: '0 16px',
-            fontFamily: 'Playfair Display, serif',
-            fontStyle: 'italic',
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gridTemplateRows: 'repeat(2, 1fr)',
+            gap: '12px',
+            flex: 1,
+            maxHeight: '55vh',
           }}>
-            {label}
-          </p>
+            {[
+              'Salon de Compiègne',
+              'Leroy Merlin de Jaux',
+              'Carrefour Venette',
+              'Marché local',
+              'Exposition',
+              'Événement',
+            ].map((label, i) => (
+              <div key={i} style={{
+                borderRadius: '6px',
+                border: '0.5px solid rgba(255,255,255,0.1)',
+                background: 'rgba(255,255,255,0.04)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '12px',
+              }}>
+                <div style={{
+                  width: '48px', height: '48px',
+                  borderRadius: '50%',
+                  background: 'rgba(139,26,26,0.25)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <span style={{ fontSize: '20px' }}>📷</span>
+                </div>
+                <p style={{
+                  fontSize: '12px',
+                  color: 'rgba(245,235,224,0.35)',
+                  textAlign: 'center',
+                  padding: '0 16px',
+                  fontFamily: 'Playfair Display, serif',
+                  fontStyle: 'italic',
+                }}>
+                  {label}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
-      ))}
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* SECTION 5 — AGENDA */}
       <section id="agenda" style={{
         background: '#fffaf6',
+        position: 'relative',
         height: '100vh',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: 'clamp(56px, 8vw, 80px) clamp(16px, 8vw, 120px)',
         gap: '64px', overflow: 'hidden',
       }}>
+        {/* Texture légère */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: `url(${BASE}texture.jpg)`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.04,
+          zIndex: 0,
+          pointerEvents: 'none',
+        }} />
         <div className="hidden md:block" style={{ flexGrow: 0, flexShrink: 0, flexBasis: '38%', height: '600px', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(26,10,2,0.08)', border: '0.5px solid #e8d5c4', position: 'relative', background: '#f5f0eb' }}>
           <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px', zIndex: 0 }}>
             <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#8b1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

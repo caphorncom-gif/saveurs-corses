@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 
+const BASE_SUPABASE = 'https://kpfjwpfjbemlchlksqzr.supabase.co/storage/v1/object/public/Photos/'
+
 const photos = [
   'https://rectoversomagazine.fr/api/images/venue/recWWIpNxF8k3YcIq?index=0',
   'https://rectoversomagazine.fr/api/images/venue/recWWIpNxF8k3YcIq?index=1',
@@ -36,8 +38,8 @@ export default function APropos() {
 
   return (
     <section id="apropos" style={{
-      /* COULEUR DU BACKGROUND */
-      background: 'linear-gradient(135deg, #fffaf6 0%, #f0e0cc 50%, #fffaf6 100%)',
+      background: '#fffaf6',
+      position: 'relative',
       minHeight: '100dvh',
       height: isMobile ? 'auto' : '100dvh',
       display: 'flex',
@@ -50,9 +52,21 @@ export default function APropos() {
       boxSizing: 'border-box',
     }}>
 
+      {/* Texture légère */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        backgroundImage: `url(${BASE_SUPABASE}texture.jpg)`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        opacity: 0.04,
+        zIndex: 0,
+        pointerEvents: 'none',
+      }} />
+
       {/* CAROUSEL */}
       <div style={{
-        position: 'relative', width: '100%',
+        position: 'relative', zIndex: 1,
+        width: '100%',
         flexGrow: 0, flexShrink: 0,
         flexBasis: isMobile ? 'auto' : '38%',
         height: isMobile ? '220px' : '65%',
@@ -82,6 +96,7 @@ export default function APropos() {
 
       {/* TEXTE */}
       <div style={{
+        position: 'relative', zIndex: 1,
         flexBasis: isMobile ? 'auto' : '38%', width: '100%',
         display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '16px',
       }}>
