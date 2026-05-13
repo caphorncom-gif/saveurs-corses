@@ -26,6 +26,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://saveurs-corses.fr',
   },
+  verification: {
+    google: 'aoG0x905pe5Ffvn7Bb_YhCrxvl-agqdhvb6lXemu2eI',
+  },
 }
 
 const jsonLd = {
