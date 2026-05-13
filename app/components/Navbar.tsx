@@ -9,11 +9,38 @@ export default function Navbar() {
   const [active, setActive] = useState('accueil')
   const [current, setCurrent] = useState(0)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [showScrollTop, setShowScrollTop] = useState(false)
+  const [progress, setProgress] = useState(0)
   const isScrolling = useRef(false)
 
   useEffect(() => {
     const container = document.getElementById('scroll-container')
     if (!container) return
+
+    // BARRE DE PROGRESSION + BOUTON RETOUR EN HAUT
+    const handleScroll = () => {
+      const scrollTop = container.scrollTop
+      const scrollHeight = container.scrollHeight - container.clientHeight
+      const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0
+      setProgress(pct)
+      setShowScrollTop(scrollTop > 300)
+    }
+    container.addEventListener('scroll', handleScroll)
+
+    // ANIMATIONS D'APPARITION
+    const animObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible')
+          }
+        })
+      },
+      { threshold: 0.15 }
+    )
+    document.querySelectorAll('.fade-in-up').forEach(el => animObserver.observe(el))
+
+    // SECTION ACTIVE
     const allSections = document.querySelectorAll('section')
     allSections.forEach(s => s.classList.add('visible'))
     const observer = new IntersectionObserver(
@@ -32,6 +59,8 @@ export default function Navbar() {
       const el = document.getElementById(id)
       if (el) observer.observe(el)
     })
+
+    // SCROLL WHEEL
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault()
       if (isScrolling.current) return
@@ -46,9 +75,12 @@ export default function Navbar() {
       setTimeout(() => { isScrolling.current = false }, 800)
     }
     container.addEventListener('wheel', handleWheel, { passive: false })
+
     return () => {
       observer.disconnect()
+      animObserver.disconnect()
       container.removeEventListener('wheel', handleWheel)
+      container.removeEventListener('scroll', handleScroll)
     }
   }, [current])
 
@@ -62,11 +94,24 @@ export default function Navbar() {
     }
   }
 
+  const scrollToTop = () => {
+    const el = document.getElementById('accueil')
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    setCurrent(0)
+  }
+
   return (
     <>
+      {/* BARRE DE PROGRESSION */}
+      <div style={{
+        position: 'fixed', top: 0, left: 0, zIndex: 100,
+        height: '2px', background: '#8b1a1a',
+        width: `${progress}%`,
+        transition: 'width 0.1s ease',
+      }} />
+
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-3"
-      /* COULEUR DU BACKGROUND */
-      style={{background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', borderBottom: '0.5px solid rgba(26,10,2,0.1)'}}>
+        style={{background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', borderBottom: '0.5px solid rgba(26,10,2,0.1)'}}>
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', gap: '32px'}}>
           <div style={{height: '50px', display: 'flex', alignItems: 'center', flexShrink: 0}}>
             <img src="https://kpfjwpfjbemlchlksqzr.supabase.co/storage/v1/object/public/Photos/logo.png" alt="Saveurs Corses" style={{height: '48px', width: 'auto', objectFit: 'contain', mixBlendMode: 'multiply'}} />
@@ -92,6 +137,7 @@ export default function Navbar() {
         </div>
       </nav>
 
+      {/* MENU MOBILE */}
       <div className="fixed top-0 left-0 right-0 z-40 flex flex-col pt-16 pb-6 px-6 md:hidden transition-all duration-300"
         style={{background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(12px)', transform: menuOpen ? 'translateY(0)' : 'translateY(-100%)', opacity: menuOpen ? 1 : 0, pointerEvents: menuOpen ? 'all' : 'none'}}>
         {sections.map((id, i) => (
@@ -104,12 +150,29 @@ export default function Navbar() {
         <div className="mt-4 text-xs" style={{color: 'rgba(160,128,96,0.6)'}}>📞 06 58 58 95 80</div>
       </div>
 
+      {/* POINTS NAVIGATION DESKTOP */}
       <div className="hidden md:flex fixed right-5 top-1/2 z-50 flex-col gap-2" style={{transform: 'translateY(-50%)'}}>
         {sections.map((id) => (
           <button key={id} onClick={() => scrollTo(id)} className="rounded-full transition-all"
             style={{width: active === id ? '8px' : '6px', height: active === id ? '8px' : '6px', background: active === id ? '#8b1a1a' : 'rgba(26,10,2,0.2)', border: 'none', cursor: 'pointer', padding: 0, transform: active === id ? 'scale(1.3)' : 'scale(1)'}} />
         ))}
       </div>
+
+      {/* BOUTON RETOUR EN HAUT */}
+      {showScrollTop && (
+        <button onClick={scrollToTop} style={{
+          position: 'fixed', bottom: '24px', right: '24px', zIndex: 50,
+          width: '44px', height: '44px', borderRadius: '50%',
+          background: '#8b1a1a', border: 'none', cursor: 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          boxShadow: '0 4px 16px rgba(139,26,26,0.4)',
+          transition: 'all 0.3s ease',
+          color: '#fff', fontSize: '18px',
+        }}
+          onMouseEnter={e => (e.currentTarget.style.background = '#6b1212')}
+          onMouseLeave={e => (e.currentTarget.style.background = '#8b1a1a')}
+        >↑</button>
+      )}
     </>
   )
 }

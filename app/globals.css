@@ -57,12 +57,6 @@ input::placeholder, textarea::placeholder {
   color: rgba(160,128,96,0.5);
 }
 
-.hero-img {
-  transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transform: scale(1);
-}
-.hero-bg:hover .hero-img { transform: scale(1.06); }
-
 .btn-hero-primary { transition: background 0.3s ease, transform 0.2s ease; }
 .btn-hero-primary:hover { background: #6b1212 !important; transform: translateY(-2px); }
 
@@ -75,6 +69,21 @@ input::placeholder, textarea::placeholder {
   -webkit-hyphens: auto;
   word-spacing: -0.05em;
 }
+
+/* ANIMATIONS D'APPARITION */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-up.delay-1 { transition-delay: 0.1s; }
+.fade-in-up.delay-2 { transition-delay: 0.2s; }
+.fade-in-up.delay-3 { transition-delay: 0.3s; }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
