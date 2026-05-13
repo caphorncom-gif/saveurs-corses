@@ -58,7 +58,7 @@ export default function APropos() {
         backgroundImage: `url(${BASE_SUPABASE}texture.jpg)`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        opacity: 0.06,
+        opacity: 0.08,
         zIndex: 0,
         pointerEvents: 'none',
       }} />
