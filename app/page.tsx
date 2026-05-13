@@ -130,7 +130,8 @@ export default function Home() {
         padding: 'clamp(56px, 8vw, 80px) clamp(16px, 8vw, 120px)',
         gap: '64px', overflow: 'hidden',
       }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${BASE}texture.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.04, zIndex: 0, pointerEvents: 'none' }} />
+        {/* opacité */}
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${BASE}texture.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.06, zIndex: 0, pointerEvents: 'none' }} />
 
         <div className="hidden md:block" style={{ position: 'relative', zIndex: 1, flexGrow: 0, flexShrink: 0, flexBasis: '38%', height: '600px', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(26,10,2,0.08)', border: '0.5px solid #e8d5c4', background: '#f5f0eb' }}>
           <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px', zIndex: 0 }}>
