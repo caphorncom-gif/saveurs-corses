@@ -74,7 +74,7 @@ export default function Home() {
       <APropos />
       <Produits />
 
-      {/* SECTION 4 — GALERIE */}
+      {/* SECTION GALERIE — masquée temporairement en attendant les photos
       <section id="galerie" style={{
         background: '#1a0a02',
         height: '100vh',
@@ -120,8 +120,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+      */}
 
-      {/* SECTION 5 — AGENDA */}
+      {/* SECTION 4 — AGENDA */}
       <section id="agenda" style={{
         background: '#fffaf6',
         position: 'relative',
@@ -130,7 +131,6 @@ export default function Home() {
         padding: 'clamp(56px, 8vw, 80px) clamp(16px, 8vw, 120px)',
         gap: '64px', overflow: 'hidden',
       }}>
-        {/* opacité */}
         <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${BASE}texture.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.08, zIndex: 0, pointerEvents: 'none' }} />
 
         <div className="hidden md:block" style={{ position: 'relative', zIndex: 1, flexGrow: 0, flexShrink: 0, flexBasis: '38%', height: '600px', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(26,10,2,0.08)', border: '0.5px solid #e8d5c4', background: '#f5f0eb' }}>
@@ -202,7 +202,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 6 — CONTACT + FOOTER */}
+      {/* SECTION 5 — CONTACT + FOOTER */}
       <section id="contact" style={{
         background: 'var(--brun)',
         minHeight: 'calc(100dvh - 80px)',
@@ -254,7 +254,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        {/* FOOTER intégré dans la section contact */}
+        {/* FOOTER */}
         <div style={{ position: 'relative', zIndex: 1 }}>
           <Footer />
         </div>

@@ -2,8 +2,8 @@
 
 import { useEffect, useState, useRef } from 'react'
 
-const sections = ['accueil', 'apropos', 'produits', 'galerie', 'agenda', 'contact']
-const labels = ['Accueil', 'À propos', 'Produits', 'Galerie', 'Agenda', 'Contact']
+const sections = ['accueil', 'apropos', 'produits', 'agenda', 'contact']
+const labels = ['Accueil', 'À propos', 'Produits', 'Agenda', 'Contact']
 
 export default function Navbar() {
   const [active, setActive] = useState('accueil')
