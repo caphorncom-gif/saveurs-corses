@@ -46,3 +46,7 @@ public/*.webp
 hero-bg.png
 hero-bg.png
 photo_sylvie.png
+
+# Maquette de travail (hors site)
+maquette/
+.claude/

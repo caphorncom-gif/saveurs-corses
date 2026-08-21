@@ -1,265 +1,231 @@
-'use client'
-import { useState } from 'react'
-import Produits from './components/Produits'
-import APropos from './components/APropos'
-import { expositions } from './data/expositions'
-import HeroCarousel from './components/HeroCaroussel'
-import Footer from './components/Footer'
+import Link from 'next/link'
+import Marquee from './components/Marquee'
+import ProduitCard from './components/ProduitCard'
+import DateCard from './components/DateCard'
+import { produitsVedette } from './lib/produits'
+import { getExpositions, plageEnLettres } from './lib/agenda'
 
-const BASE = 'https://kpfjwpfjbemlchlksqzr.supabase.co/storage/v1/object/public/Photos/'
+export const revalidate = 3600
 
-function ContactForm() {
-  const [formData, setFormData] = useState({ nom: '', email: '', sujet: '', message: '' })
-  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setStatus('sending')
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      })
-      if (res.ok) {
-        setStatus('success')
-        setFormData({ nom: '', email: '', sujet: '', message: '' })
-      } else setStatus('error')
-    } catch {
-      setStatus('error')
-    }
-  }
+export default async function Accueil() {
+  const expos = await getExpositions()
+  const prochaine = expos[0]
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-      <input type="text" placeholder="Votre nom" required value={formData.nom}
-        onChange={e => setFormData({ ...formData, nom: e.target.value })}
-        style={{ width: '100%', padding: '13px 14px', fontSize: '14px', background: 'rgba(255,255,255,0.08)', border: '0.5px solid rgba(255,255,255,0.2)', color: '#f5ebe0', borderRadius: '4px', outline: 'none', boxSizing: 'border-box' }} />
-      <input type="email" placeholder="Votre e-mail" required value={formData.email}
-        onChange={e => setFormData({ ...formData, email: e.target.value })}
-        style={{ width: '100%', padding: '13px 14px', fontSize: '14px', background: 'rgba(255,255,255,0.08)', border: '0.5px solid rgba(255,255,255,0.2)', color: '#f5ebe0', borderRadius: '4px', outline: 'none', boxSizing: 'border-box' }} />
-      <input type="text" placeholder="Sujet" required value={formData.sujet}
-        onChange={e => setFormData({ ...formData, sujet: e.target.value })}
-        style={{ width: '100%', padding: '13px 14px', fontSize: '14px', background: 'rgba(255,255,255,0.08)', border: '0.5px solid rgba(255,255,255,0.2)', color: '#f5ebe0', borderRadius: '4px', outline: 'none', boxSizing: 'border-box' }} />
-      <textarea placeholder="Votre message..." rows={3} required value={formData.message}
-        onChange={e => setFormData({ ...formData, message: e.target.value })}
-        style={{ width: '100%', padding: '13px 14px', fontSize: '14px', background: 'rgba(255,255,255,0.08)', border: '0.5px solid rgba(255,255,255,0.2)', color: '#f5ebe0', borderRadius: '4px', outline: 'none', resize: 'none', boxSizing: 'border-box' }} />
-      {status === 'success' && (
-        <p style={{ fontSize: '13px', color: '#6fcf97', padding: '10px 14px', background: 'rgba(111,207,151,0.1)', borderRadius: '4px', border: '0.5px solid rgba(111,207,151,0.3)' }}>
-          ✅ Message envoyé ! Rodolphe vous répondra rapidement.
-        </p>
+    <>
+      {/* Ruban prochaine date */}
+      {prochaine && (
+        <div style={{
+          background: 'var(--rouge)', color: '#fdf6ea',
+          fontSize: '12.5px', letterSpacing: '.12em', textTransform: 'uppercase',
+          textAlign: 'center', padding: '9px 16px', fontWeight: 700,
+        }}>
+          Prochaine date : <span style={{ color: '#f3cf9b' }}>{prochaine.nom} · {plageEnLettres(prochaine)}</span> — venez nous rencontrer
+        </div>
       )}
-      {status === 'error' && (
-        <p style={{ fontSize: '13px', color: '#eb5757', padding: '10px 14px', background: 'rgba(235,87,87,0.1)', borderRadius: '4px', border: '0.5px solid rgba(235,87,87,0.3)' }}>
-          ❌ Erreur lors de l'envoi. Réessayez ou appelez le 06 58 58 95 80.
-        </p>
-      )}
-      <button type="submit" disabled={status === 'sending'} style={{
-        alignSelf: 'flex-start', padding: '12px 28px', fontSize: '12px', fontWeight: 700,
-        letterSpacing: '1.5px', textTransform: 'uppercase', color: '#fff',
-        background: status === 'sending' ? '#6b1212' : '#8b1a1a',
-        border: 'none', borderRadius: '4px', cursor: status === 'sending' ? 'not-allowed' : 'pointer',
-      }}>
-        {status === 'sending' ? 'Envoi...' : 'Envoyer le message'}
-      </button>
-    </form>
-  )
-}
 
-export default function Home() {
-  return (
-    <main className="scroll-container" id="scroll-container">
+      {/* Hero */}
+      <section style={{ position: 'relative', background: 'var(--ardoise)', color: 'var(--creme)', overflow: 'hidden' }}>
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: 'url(/images/hero-bg.jpg)',
+          backgroundSize: 'cover', backgroundPosition: 'center',
+          opacity: .38,
+        }} />
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(100deg, rgba(23,16,9,.96) 0%, rgba(23,16,9,.75) 45%, rgba(23,16,9,.35) 100%)',
+        }} />
+        <div className="wrap" style={{
+          position: 'relative', zIndex: 2,
+          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '40px', alignItems: 'center',
+          minHeight: 'min(85vh, 760px)',
+          paddingTop: 'clamp(56px, 8vw, 96px)', paddingBottom: 'clamp(56px, 8vw, 96px)',
+        }}>
+          <div>
+            <span className="rise" style={{
+              display: 'inline-flex', alignItems: 'center', gap: '12px',
+              fontSize: '12px', fontWeight: 700, letterSpacing: '.3em', textTransform: 'uppercase',
+              color: 'var(--miel)', marginBottom: '22px',
+            }}>
+              <span style={{ width: '34px', height: '1px', background: 'var(--miel)' }} />
+              Artisan corse dans l&apos;Oise
+            </span>
+            <h1 className="rise-1" style={{
+              fontSize: 'clamp(42px, 6.4vw, 80px)', fontWeight: 560,
+              lineHeight: 1.02, letterSpacing: '-0.015em', marginBottom: '24px',
+            }}>
+              Le goût vrai<br />de <em style={{ fontWeight: 420, color: 'var(--miel)' }}>l&apos;Île de Beauté</em>
+            </h1>
+            <p className="rise-2" style={{
+              fontSize: 'clamp(15px, 1.6vw, 18px)', color: 'rgba(246,238,222,.78)',
+              maxWidth: '480px', marginBottom: '36px',
+            }}>
+              Saucissons, coppa, lonzo, miels et terrines — une sélection rigoureuse de produits corses
+              authentiques, issus d&apos;un savoir-faire ancestral, sur les marchés de Compiègne et de l&apos;Oise.
+            </p>
+            <div className="rise-3" style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
+              <Link href="/produits" className="btn btn-rouge">Découvrir nos produits</Link>
+              <Link href="/agenda" className="btn btn-ghost-sombre">Où nous trouver</Link>
+            </div>
+          </div>
 
-      <HeroCarousel />
-      <APropos />
-      <Produits />
+          <div className="rise-4" style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
+            <div style={{
+              width: 'clamp(260px, 28vw, 400px)', aspectRatio: '1', borderRadius: '50%',
+              background: 'radial-gradient(circle at 35% 30%, #fbf4e6, var(--kraft) 75%)',
+              boxShadow: '0 40px 80px rgba(0,0,0,.5), inset 0 0 0 10px rgba(156,33,33,.08)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <img src="/images/saucisson_porc.webp" alt="Saucisson corse artisanal" style={{
+                width: '82%', transform: 'rotate(-14deg)',
+                filter: 'drop-shadow(0 18px 24px rgba(0,0,0,.35))',
+              }} />
+            </div>
+            <div className="hidden md:block" aria-hidden="true" style={{
+              position: 'absolute', top: '-4%', right: '6%',
+              width: '112px', height: '112px',
+              animation: 'tourne 24s linear infinite',
+            }}>
+              <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%' }}>
+                <defs><path id="cercle" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" /></defs>
+                <text style={{
+                  fontFamily: 'var(--font-karla)', fontSize: '10.5px', fontWeight: 800,
+                  letterSpacing: '.32em', textTransform: 'uppercase', fill: 'var(--miel)',
+                }}>
+                  <textPath href="#cercle">· Depuis la Corse · Avec passion </textPath>
+                </text>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      {/* SECTION GALERIE — masquée temporairement en attendant les photos
-      <section id="galerie" style={{
-        background: '#1a0a02',
-        height: '100vh',
-        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-        padding: 'clamp(72px, 8vw, 100px) clamp(16px, 6vw, 80px) clamp(40px, 6vw, 60px)',
-        position: 'relative', overflow: 'hidden',
-      }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${BASE}texture.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0, opacity: 0.15, transform: 'translateZ(0)', willChange: 'transform' }} />
-        <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: '1100px', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-            <p style={{ fontSize: '12px', letterSpacing: '3px', textTransform: 'uppercase', color: '#8b1a1a', fontWeight: 700, marginBottom: '10px' }}>Galerie</p>
-            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(24px, 5vw, 36px)', fontWeight: 700, color: '#f5ebe0', marginBottom: '10px' }}>
-              Nos salons & expositions
-            </h2>
-            <p style={{ fontSize: '15px', color: 'rgba(245,235,224,0.6)', maxWidth: '480px', margin: '0 auto' }}>
-              Retrouvez-nous sur les marchés et galeries de l'Oise.
+      <Marquee />
+
+      {/* Produits vedette */}
+      <section className="section" style={{ background: 'var(--creme)' }}>
+        <div className="wrap">
+          <div style={{
+            display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
+            gap: '24px', marginBottom: '48px', flexWrap: 'wrap',
+          }}>
+            <div>
+              <span className="kicker">Nos spécialités</span>
+              <h2>Charcuteries &amp; produits<br />du <em>terroir corse</em></h2>
+            </div>
+            <p style={{ maxWidth: '420px', color: 'var(--brun-doux)' }}>
+              Chaque produit est sélectionné chez des producteurs corses pour son authenticité
+              et son goût. Affinés avec soin, ils portent les arômes du maquis.
             </p>
           </div>
+          <div className="grille-produits">
+            {produitsVedette.map(p => <ProduitCard key={p.slug} produit={p} />)}
+          </div>
+          <div style={{ textAlign: 'center', marginTop: '44px' }}>
+            <Link href="/produits" className="btn btn-rouge">Voir tous nos produits</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Agenda — 3 prochaines dates */}
+      <section className="section" style={{ background: 'var(--ardoise)', color: 'var(--creme)', position: 'relative', overflow: 'hidden' }}>
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: 'url(/images/texture.jpg)', backgroundSize: 'cover', backgroundPosition: 'center',
+          opacity: .1,
+        }} />
+        <div className="wrap" style={{ position: 'relative', zIndex: 2 }}>
+          <span className="kicker" style={{ color: 'var(--miel)' }}>Agenda</span>
+          <h2 style={{ color: 'var(--creme)' }}>Retrouvez-nous<br /><em style={{ color: 'var(--miel)' }}>près de chez vous</em></h2>
+          {expos.length > 0 ? (
+            <div style={{
+              display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gap: '18px', marginTop: '44px',
+            }}>
+              {expos.slice(0, 3).map(e => <DateCard key={e.id} expo={e} />)}
+            </div>
+          ) : (
+            <p style={{ marginTop: '32px', color: 'rgba(246,238,222,.7)' }}>
+              Les prochaines dates arrivent bientôt — suivez-nous sur les réseaux ou contactez-nous.
+            </p>
+          )}
           <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gridTemplateRows: 'repeat(2, 1fr)',
-            gap: '12px',
-            flex: 1,
-            maxHeight: '55vh',
+            marginTop: '40px', display: 'flex', alignItems: 'center',
+            justifyContent: 'space-between', gap: '20px', flexWrap: 'wrap',
           }}>
-            {['Salon de Compiègne', 'Leroy Merlin de Jaux', 'Carrefour Venette', 'Marché local', 'Exposition', 'Événement'].map((label, i) => (
-              <div key={i} style={{
-                borderRadius: '6px',
-                border: '0.5px solid rgba(255,255,255,0.1)',
-                background: 'rgba(255,255,255,0.04)',
-                display: 'flex', flexDirection: 'column',
-                alignItems: 'center', justifyContent: 'center', gap: '12px',
-              }}>
-                <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(139,26,26,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <span style={{ fontSize: '20px' }}>📷</span>
-                </div>
-                <p style={{ fontSize: '12px', color: 'rgba(245,235,224,0.35)', textAlign: 'center', padding: '0 16px', fontFamily: 'Playfair Display, serif', fontStyle: 'italic' }}>
-                  {label}
-                </p>
-              </div>
-            ))}
+            <p className="serif" style={{ fontStyle: 'italic', fontSize: '19px', color: 'rgba(246,238,222,.85)' }}>
+              « Vous organisez un événement ? Nous serions ravis d&apos;y participer. »
+            </p>
+            <Link href="/agenda" className="btn btn-ghost-sombre">Tout l&apos;agenda</Link>
           </div>
         </div>
       </section>
-      */}
 
-      {/* SECTION 4 — AGENDA */}
-      <section id="agenda" style={{
-        background: '#fffaf6',
-        position: 'relative',
-        height: '100vh',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: 'clamp(56px, 8vw, 80px) clamp(16px, 8vw, 120px)',
-        gap: '64px', overflow: 'hidden',
-      }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${BASE}texture.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.08, zIndex: 0, pointerEvents: 'none' }} />
-
-        <div className="hidden md:block" style={{ position: 'relative', zIndex: 1, flexGrow: 0, flexShrink: 0, flexBasis: '38%', height: '600px', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(26,10,2,0.08)', border: '0.5px solid #e8d5c4', background: '#f5f0eb' }}>
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px', zIndex: 0 }}>
-            <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#8b1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ color: '#fff', fontSize: '20px' }}>📍</span>
-            </div>
-            <p style={{ fontSize: '13px', color: '#a08060', fontFamily: 'Playfair Display, serif' }}>Chargement de la carte...</p>
+      {/* Notre histoire — teaser */}
+      <section className="section" style={{ background: 'var(--papier)', overflow: 'hidden' }}>
+        <div className="wrap" style={{
+          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: 'clamp(36px, 6vw, 80px)', alignItems: 'center',
+        }}>
+          <div style={{ position: 'relative', maxWidth: '440px' }}>
+            <img src="/images/rodolphe.jpg" alt="Rodolphe Defouloy sur un marché" style={{
+              borderRadius: '16px', aspectRatio: '4/5', objectFit: 'cover', width: '100%',
+              boxShadow: '0 30px 60px rgba(43,28,14,.28)',
+            }} />
+            <img src="/images/sylvie.png" alt="Sylvie Defouloy" style={{
+              position: 'absolute', right: '-8%', bottom: '-10%',
+              width: '42%', aspectRatio: '1', objectFit: 'cover', objectPosition: 'center top',
+              borderRadius: '12px', border: '6px solid var(--papier)',
+              boxShadow: '0 20px 40px rgba(43,28,14,.3)',
+            }} />
           </div>
-          <iframe src="https://maps.google.com/maps?q=Venette,60280,France&output=embed&z=13" width="100%" height="100%" style={{ border: 0, display: 'block', position: 'relative', zIndex: 1 }} allowFullScreen loading="lazy" />
-        </div>
-
-        <div style={{ position: 'relative', zIndex: 1, flexGrow: 1, flexShrink: 1, flexBasis: 'auto', width: '100%', maxWidth: '480px', maxHeight: '600px', display: 'flex', flexDirection: 'column', gap: '8px', justifyContent: 'flex-start' }}>
           <div>
-            <p style={{ fontSize: '12px', letterSpacing: '3px', textTransform: 'uppercase', color: '#8b1a1a', fontWeight: 700, marginBottom: '8px' }}>Agenda</p>
-            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: 700, color: '#1a0a02', marginBottom: '8px', lineHeight: 1.2 }}>Retrouvez-nous<br />près de chez vous</h2>
-          </div>
-          <div className="block md:hidden" style={{ width: '100%', height: '160px', borderRadius: '8px', overflow: 'hidden', border: '0.5px solid #e8d5c4', flexShrink: 0, position: 'relative', background: '#f5f0eb' }}>
-            <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 0 }}>
-              <p style={{ fontSize: '12px', color: '#a08060' }}>Chargement de la carte...</p>
+            <span className="kicker">Notre histoire</span>
+            <h2 style={{ marginBottom: '20px' }}>Une passion pour les traditions de <em>l&apos;Île de Beauté</em></h2>
+            <p style={{ color: 'var(--brun-doux)', marginBottom: '16px', maxWidth: '520px' }}>
+              Saveurs Corses, c&apos;est Rodolphe et Sylvie Defouloy — une petite entreprise passionnée,
+              dédiée à la mise en valeur des traditions culinaires corses.
+            </p>
+            <p style={{ color: 'var(--brun-doux)', marginBottom: '16px', maxWidth: '520px' }}>
+              Présents sur les marchés et dans les galeries marchandes de l&apos;Oise, ils proposent une
+              sélection rigoureuse de produits authentiques, dans un esprit de proximité et de convivialité.
+            </p>
+            <div style={{ display: 'flex', gap: 'clamp(24px, 4vw, 48px)', marginTop: '32px', flexWrap: 'wrap' }}>
+              {[['100%', 'Produits corses'], ['Artisan', 'Producteurs sélectionnés'], ['Local', "Présents dans l'Oise"]].map(([haut, bas]) => (
+                <div key={haut}>
+                  <div className="serif" style={{ fontSize: '30px', fontWeight: 640, color: 'var(--rouge)' }}>{haut}</div>
+                  <div style={{ fontSize: '11.5px', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--brun-doux)' }}>{bas}</div>
+                </div>
+              ))}
             </div>
-            <iframe src="https://maps.google.com/maps?q=Venette,60280,France&output=embed&z=13" width="100%" height="100%" style={{ border: 0, display: 'block', position: 'relative', zIndex: 1 }} allowFullScreen loading="lazy" />
-          </div>
-          <div className="agenda-list" onWheel={e => e.stopPropagation()}
-            style={{ display: 'flex', flexDirection: 'column', gap: '8px', overflowY: 'auto', maxHeight: '420px', paddingRight: '8px', scrollbarWidth: 'thin', scrollbarColor: 'rgba(139,26,26,0.3) transparent' }}>
-            <style>{`
-              .agenda-list::-webkit-scrollbar { width: 4px; }
-              .agenda-list::-webkit-scrollbar-track { background: transparent; }
-              .agenda-list::-webkit-scrollbar-thumb { background: rgba(139,26,26,0.3); border-radius: 2px; }
-              .agenda-list::-webkit-scrollbar-thumb:hover { background: rgba(139,26,26,0.6); }
-            `}</style>
-            {expositions.map((e) => (
-              <div key={e.lieu + e.jour} style={{
-                display: 'flex', gap: '16px', alignItems: 'center',
-                padding: '14px 16px', background: '#fff',
-                borderLeft: `3px solid ${e.tag === 'Exposition' ? '#8b1a1a' : e.tag === 'Salon' ? '#6b3fa0' : '#d4820a'}`,
-                border: '0.5px solid #e8d5c4', borderLeftWidth: '3px',
-                borderRadius: '4px', transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                boxShadow: '0 1px 4px rgba(26,10,2,0.04)',
-              }}
-                onMouseEnter={e2 => { e2.currentTarget.style.transform = 'translateX(4px)'; e2.currentTarget.style.boxShadow = '0 4px 20px rgba(139,26,26,0.1)' }}
-                onMouseLeave={e2 => { e2.currentTarget.style.transform = 'translateX(0)'; e2.currentTarget.style.boxShadow = '0 1px 4px rgba(26,10,2,0.04)' }}
-              >
-                <div style={{ textAlign: 'center', minWidth: '44px', flexShrink: 0, borderRight: '1px solid #e8d5c4', paddingRight: '12px' }}>
-                  <p style={{ fontFamily: 'Playfair Display, serif', fontSize: e.jour.length > 2 ? '18px' : '26px', fontWeight: 700, color: e.tag === 'Exposition' ? '#8b1a1a' : e.tag === 'Salon' ? '#6b3fa0' : '#d4820a', lineHeight: 1 }}>{e.jour}</p>
-                  <p style={{ fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase', color: '#a08060', marginTop: '2px' }}>{e.mois}</p>
-                </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: '15px', fontWeight: 700, color: '#1a0a02', marginBottom: '3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{e.lieu}</p>
-                  <p style={{ fontSize: '13px', color: '#5a3a2a', lineHeight: 1.5 }}>{e.detail}</p>
-                </div>
-                <span style={{
-                  fontSize: '9px', letterSpacing: '1px', textTransform: 'uppercase',
-                  padding: '3px 8px', borderRadius: '2px', fontWeight: 700, flexShrink: 0,
-                  background: e.tag === 'Exposition' ? '#fef3ef' : e.tag === 'Salon' ? '#f3effe' : '#fef8ec',
-                  color: e.tag === 'Exposition' ? '#8b1a1a' : e.tag === 'Salon' ? '#6b3fa0' : '#d4820a',
-                  border: e.tag === 'Exposition' ? '0.5px solid rgba(139,26,26,0.2)' : e.tag === 'Salon' ? '0.5px solid rgba(107,63,160,0.2)' : '0.5px solid rgba(212,130,10,0.2)',
-                }}>{e.tag}</span>
-              </div>
-            ))}
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', background: '#1a0a02', borderRadius: '6px', flexShrink: 0 }}>
-            <p style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(12px, 2vw, 15px)', fontWeight: 700, color: '#f5ebe0' }}>Vous souhaitez nous accueillir ?</p>
-            <a href="#contact" style={{ flexShrink: 0, background: '#8b1a1a', color: '#fff', padding: '8px 14px', borderRadius: '3px', fontSize: '11px', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', textDecoration: 'none', marginLeft: '12px' }}
-              onMouseEnter={e => (e.currentTarget.style.background = '#6b1212')}
-              onMouseLeave={e => (e.currentTarget.style.background = '#8b1a1a')}
-            >Nous contacter</a>
+            <div style={{ marginTop: '36px' }}>
+              <Link href="/notre-histoire" className="btn btn-ghost-clair">Découvrir notre histoire</Link>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* SECTION 5 — CONTACT + FOOTER */}
-      <section id="contact" style={{
-        background: 'var(--brun)',
-        minHeight: 'calc(100dvh - 80px)',
-        display: 'flex', flexDirection: 'column',
-        position: 'relative', overflow: 'hidden',
-      }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${BASE}contact-bg.jpg)`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0, opacity: 0.35, transform: 'translateZ(0)', willChange: 'transform' }} />
-        <div style={{ position: 'relative', zIndex: 1, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'clamp(60px, 8vw, 80px) clamp(16px, 6vw, 80px)' }}>
-          <div style={{ maxWidth: '900px', width: '100%', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <div>
-              <p style={{ fontSize: '12px', letterSpacing: '3px', textTransform: 'uppercase', color: '#f5ebe0', fontWeight: 700, marginBottom: '8px' }}>Contact</p>
-              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(24px, 5vw, 36px)', fontWeight: 700, color: '#f5ebe0', marginBottom: '8px' }}>Une question ?<br />Une commande ?</h2>
-              <p style={{ fontSize: '15px', color: 'rgba(245,235,224,0.7)', lineHeight: 1.7, maxWidth: '480px' }}>
-                Plateau cadeau, commande spéciale, présence sur un événement... Contactez-nous directement.
-              </p>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px', alignItems: 'start' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '14px 16px', background: 'rgba(255,255,255,0.08)', borderRadius: '6px', border: '0.5px solid rgba(255,255,255,0.15)' }}>
-                  <div style={{ width: '56px', height: '56px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '2px solid rgba(255,255,255,0.2)' }}>
-                    <img src={BASE + 'photo_rodolphe.JPEG'} alt="Rodolphe Defouloy" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
-                  </div>
-                  <div>
-                    <p style={{ fontFamily: 'Playfair Display, serif', fontSize: '16px', fontWeight: 700, color: '#f5ebe0', marginBottom: '3px' }}>Rodolphe Defouloy</p>
-                    <p style={{ fontSize: '11px', color: 'rgba(245,235,224,0.55)', letterSpacing: '2px', textTransform: 'uppercase' }}>Fondateur · Saveurs Corses</p>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '14px 16px', background: 'rgba(255,255,255,0.08)', borderRadius: '6px', border: '0.5px solid rgba(255,255,255,0.15)' }}>
-                  <div style={{ width: '56px', height: '56px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '2px solid rgba(255,255,255,0.2)' }}>
-                    <img src={BASE + 'photo_sylvie.png'} alt="Sylvie Defouloy" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
-                  </div>
-                  <div>
-                    <p style={{ fontFamily: 'Playfair Display, serif', fontSize: '16px', fontWeight: 700, color: '#f5ebe0', marginBottom: '3px' }}>Sylvie Defouloy</p>
-                    <p style={{ fontSize: '11px', color: 'rgba(245,235,224,0.55)', letterSpacing: '2px', textTransform: 'uppercase' }}>Fondatrice · Saveurs Corses</p>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '14px 18px', background: 'rgba(255,255,255,0.08)', borderRadius: '6px', border: '0.5px solid rgba(255,255,255,0.15)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: '#f5ebe0' }}>
-                    <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', color: '#e8c090', minWidth: '28px' }}>Tél.</span>
-                    <strong style={{ color: '#f5ebe0' }}>06 58 58 95 80</strong>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: 'rgba(245,235,224,0.7)' }}>
-                    <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', color: '#e8c090', minWidth: '28px' }}>Lieu</span>
-                    <span>Venette, 60280</span>
-                  </div>
-                </div>
-              </div>
-              <ContactForm />
-            </div>
+      {/* Bandeau plateau cadeau */}
+      <section style={{ background: 'var(--rouge)', color: '#fdf6ea', padding: 'clamp(48px, 7vw, 80px) 0' }}>
+        <div className="wrap" style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          gap: '28px', flexWrap: 'wrap',
+        }}>
+          <div>
+            <h2 style={{ color: '#fdf6ea' }}>Un plateau cadeau,<br />une <em style={{ color: '#f3cf9b' }}>commande spéciale&nbsp;?</em></h2>
+            <p style={{ color: 'rgba(253,246,234,.8)', maxWidth: '460px', marginTop: '10px' }}>
+              Plateaux apéritifs, coffrets gourmands, commandes pour vos événements — contactez-nous
+              directement, nous préparons tout avec soin.
+            </p>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', alignItems: 'flex-start' }}>
+            <a href="tel:0658589580" className="btn btn-creme">☎&nbsp; 06 58 58 95 80</a>
+            <Link href="/contact" className="btn btn-ghost-sombre">Écrire un message</Link>
           </div>
         </div>
-        {/* FOOTER */}
-        <div style={{ position: 'relative', zIndex: 1 }}>
-          <Footer />
-        </div>
       </section>
-
-    </main>
+    </>
   )
 }

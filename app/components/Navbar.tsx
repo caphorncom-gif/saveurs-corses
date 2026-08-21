@@ -1,178 +1,99 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
-const sections = ['accueil', 'apropos', 'produits', 'agenda', 'contact']
-const labels = ['Accueil', 'À propos', 'Produits', 'Agenda', 'Contact']
+const liens = [
+  { href: '/produits', label: 'Nos produits' },
+  { href: '/agenda', label: 'Agenda' },
+  { href: '/notre-histoire', label: 'Notre histoire' },
+  { href: '/contact', label: 'Contact' },
+]
 
 export default function Navbar() {
-  const [active, setActive] = useState('accueil')
-  const [current, setCurrent] = useState(0)
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [showScrollTop, setShowScrollTop] = useState(false)
-  const [progress, setProgress] = useState(0)
-  const isScrolling = useRef(false)
-
-  useEffect(() => {
-    const container = document.getElementById('scroll-container')
-    if (!container) return
-
-    // BARRE DE PROGRESSION + BOUTON RETOUR EN HAUT
-    const handleScroll = () => {
-      const scrollTop = container.scrollTop
-      const scrollHeight = container.scrollHeight - container.clientHeight
-      const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0
-      setProgress(pct)
-      setShowScrollTop(scrollTop > 300)
-    }
-    container.addEventListener('scroll', handleScroll)
-
-    // ANIMATIONS D'APPARITION
-    const animObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible')
-          }
-        })
-      },
-      { threshold: 0.15 }
-    )
-    document.querySelectorAll('.fade-in-up').forEach(el => animObserver.observe(el))
-
-    // SECTION ACTIVE
-    const allSections = document.querySelectorAll('section')
-    allSections.forEach(s => s.classList.add('visible'))
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActive(entry.target.id)
-            const idx = sections.indexOf(entry.target.id)
-            if (idx !== -1) setCurrent(idx)
-          }
-        })
-      },
-      { threshold: 0.5, root: container }
-    )
-    sections.forEach((id) => {
-      const el = document.getElementById(id)
-      if (el) observer.observe(el)
-    })
-
-    // SCROLL WHEEL
-    const handleWheel = (e: WheelEvent) => {
-      e.preventDefault()
-      if (isScrolling.current) return
-      isScrolling.current = true
-      const dir = e.deltaY > 0 ? 1 : -1
-      const next = Math.max(0, Math.min(sections.length - 1, current + dir))
-      const el = document.getElementById(sections[next])
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        setCurrent(next)
-      }
-      setTimeout(() => { isScrolling.current = false }, 800)
-    }
-    container.addEventListener('wheel', handleWheel, { passive: false })
-
-    return () => {
-      observer.disconnect()
-      animObserver.disconnect()
-      container.removeEventListener('wheel', handleWheel)
-      container.removeEventListener('scroll', handleScroll)
-    }
-  }, [current])
-
-  const scrollTo = (id: string) => {
-    const idx = sections.indexOf(id)
-    const el = document.getElementById(id)
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      setCurrent(idx)
-      setMenuOpen(false)
-    }
-  }
-
-  const scrollToTop = () => {
-    const el = document.getElementById('accueil')
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    setCurrent(0)
-  }
+  const pathname = usePathname()
+  const [ouvert, setOuvert] = useState(false)
 
   return (
-    <>
-      {/* BARRE DE PROGRESSION */}
+    <header style={{
+      position: 'sticky', top: 0, zIndex: 50,
+      background: 'rgba(246,238,222,.92)',
+      backdropFilter: 'blur(10px)',
+      borderBottom: '1px solid rgba(43,28,14,.12)',
+    }}>
       <div style={{
-        position: 'fixed', top: 0, left: 0, zIndex: 100,
-        height: '2px', background: '#8b1a1a',
-        width: `${progress}%`,
-        transition: 'width 0.1s ease',
-      }} />
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '12px clamp(20px, 4vw, 48px)',
+        maxWidth: '1320px', margin: '0 auto',
+      }}>
+        <Link href="/" onClick={() => setOuvert(false)} style={{ display: 'flex', alignItems: 'center', gap: '13px' }}>
+          <img src="/images/logo.png" alt="" width={48} height={48} style={{ objectFit: 'contain' }} />
+          <span className="serif" style={{ fontWeight: 700, fontSize: '20px', lineHeight: 1.1, color: 'var(--encre)' }}>
+            Saveurs Corses
+            <small style={{
+              display: 'block', fontFamily: 'var(--font-karla)', fontWeight: 700,
+              fontSize: '9px', letterSpacing: '.26em', textTransform: 'uppercase',
+              color: 'var(--rouge)', marginTop: '3px',
+            }}>Charcuteries · Venette, Oise</small>
+          </span>
+        </Link>
 
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-3"
-        style={{background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', borderBottom: '0.5px solid rgba(26,10,2,0.1)'}}>
-        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', gap: '32px'}}>
-          <div style={{height: '50px', display: 'flex', alignItems: 'center', flexShrink: 0}}>
-            <img src="https://kpfjwpfjbemlchlksqzr.supabase.co/storage/v1/object/public/Photos/logo.png" alt="Saveurs Corses" style={{height: '48px', width: 'auto', objectFit: 'contain', mixBlendMode: 'multiply'}} />
-          </div>
-          <div className="hidden md:flex gap-1">
-            {sections.map((id, i) => (
-              <button key={id} onClick={() => scrollTo(id)}
-                className="px-3 py-2 text-xs font-bold tracking-widest uppercase"
-                style={{background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Lato, sans-serif', color: active === id ? '#8b1a1a' : 'rgba(37,37,35,0.4)'}}>
-                {labels[i]}
-              </button>
-            ))}
-          </div>
-          <div style={{position: 'absolute', right: '24px'}}>
-            <button className="flex md:hidden flex-col gap-1.5 p-2"
-              onClick={() => setMenuOpen(!menuOpen)}
-              style={{background: 'none', border: 'none', cursor: 'pointer'}}>
-              <span className="block w-6 h-0.5 transition-all duration-300" style={{background: '#1a0a02', transform: menuOpen ? 'rotate(45deg) translateY(8px)' : 'none'}} />
-              <span className="block w-6 h-0.5 transition-all duration-300" style={{background: '#1a0a02', opacity: menuOpen ? 0 : 1}} />
-              <span className="block w-6 h-0.5 transition-all duration-300" style={{background: '#1a0a02', transform: menuOpen ? 'rotate(-45deg) translateY(-8px)' : 'none'}} />
-            </button>
-          </div>
-        </div>
-      </nav>
+        {/* Desktop */}
+        <nav className="nav-desktop" style={{ gap: 'clamp(16px, 2.5vw, 32px)', alignItems: 'center' }}>
+          {liens.map(l => (
+            <Link key={l.href} href={l.href} style={{
+              fontSize: '13px', fontWeight: 700, letterSpacing: '.14em',
+              textTransform: 'uppercase',
+              color: pathname === l.href ? 'var(--rouge)' : 'var(--encre)',
+              borderBottom: pathname === l.href ? '2px solid var(--rouge)' : '2px solid transparent',
+              paddingBottom: '2px',
+            }}>{l.label}</Link>
+          ))}
+          <a href="tel:0658589580" style={{
+            background: 'var(--encre)', color: 'var(--creme)',
+            padding: '10px 18px', borderRadius: '999px',
+            fontSize: '12.5px', fontWeight: 700, letterSpacing: '.1em',
+          }}>06 58 58 95 80</a>
+        </nav>
 
-      {/* MENU MOBILE */}
-      <div className="fixed top-0 left-0 right-0 z-40 flex flex-col pt-16 pb-6 px-6 md:hidden transition-all duration-300"
-        style={{background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(12px)', transform: menuOpen ? 'translateY(0)' : 'translateY(-100%)', opacity: menuOpen ? 1 : 0, pointerEvents: menuOpen ? 'all' : 'none'}}>
-        {sections.map((id, i) => (
-          <button key={id} onClick={() => scrollTo(id)}
-            className="py-4 text-left text-sm font-bold tracking-widest uppercase"
-            style={{background: 'none', border: 'none', borderBottom: '0.5px solid rgba(26,10,2,0.07)', cursor: 'pointer', fontFamily: 'Lato, sans-serif', color: active === id ? '#8b1a1a' : 'rgba(26,10,2,0.5)'}}>
-            {labels[i]}
-          </button>
-        ))}
-        <div className="mt-4 text-xs" style={{color: 'rgba(160,128,96,0.6)'}}>📞 06 58 58 95 80</div>
+        {/* Burger mobile */}
+        <button
+          className="nav-burger"
+          onClick={() => setOuvert(o => !o)}
+          aria-label={ouvert ? 'Fermer le menu' : 'Ouvrir le menu'}
+          aria-expanded={ouvert}
+          style={{
+            background: 'none', border: 'none', cursor: 'pointer', padding: '8px',
+            flexDirection: 'column', gap: '5px',
+          }}
+        >
+          <span style={{ width: '24px', height: '2px', background: 'var(--encre)', transition: 'transform .2s', transform: ouvert ? 'translateY(7px) rotate(45deg)' : 'none' }} />
+          <span style={{ width: '24px', height: '2px', background: 'var(--encre)', opacity: ouvert ? 0 : 1, transition: 'opacity .2s' }} />
+          <span style={{ width: '24px', height: '2px', background: 'var(--encre)', transition: 'transform .2s', transform: ouvert ? 'translateY(-7px) rotate(-45deg)' : 'none' }} />
+        </button>
       </div>
 
-      {/* POINTS NAVIGATION DESKTOP */}
-      <div className="hidden md:flex fixed right-5 top-1/2 z-50 flex-col gap-2" style={{transform: 'translateY(-50%)'}}>
-        {sections.map((id) => (
-          <button key={id} onClick={() => scrollTo(id)} className="rounded-full transition-all"
-            style={{width: active === id ? '8px' : '6px', height: active === id ? '8px' : '6px', background: active === id ? '#8b1a1a' : 'rgba(26,10,2,0.2)', border: 'none', cursor: 'pointer', padding: 0, transform: active === id ? 'scale(1.3)' : 'scale(1)'}} />
-        ))}
-      </div>
-
-      {/* BOUTON RETOUR EN HAUT */}
-      {showScrollTop && (
-        <button onClick={scrollToTop} style={{
-          position: 'fixed', bottom: '24px', right: '24px', zIndex: 50,
-          width: '44px', height: '44px', borderRadius: '50%',
-          background: '#8b1a1a', border: 'none', cursor: 'pointer',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          boxShadow: '0 4px 16px rgba(139,26,26,0.4)',
-          transition: 'all 0.3s ease',
-          color: '#fff', fontSize: '18px',
-        }}
-          onMouseEnter={e => (e.currentTarget.style.background = '#6b1212')}
-          onMouseLeave={e => (e.currentTarget.style.background = '#8b1a1a')}
-        >↑</button>
+      {/* Menu mobile déroulé */}
+      {ouvert && (
+        <nav className="nav-burger" style={{
+          display: 'flex', flexDirection: 'column',
+          padding: '8px 20px 24px', gap: '4px',
+          borderTop: '1px solid rgba(43,28,14,.08)',
+        }}>
+          {liens.map(l => (
+            <Link key={l.href} href={l.href} onClick={() => setOuvert(false)} style={{
+              padding: '13px 4px',
+              fontSize: '15px', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase',
+              color: pathname === l.href ? 'var(--rouge)' : 'var(--encre)',
+              borderBottom: '1px solid rgba(43,28,14,.07)',
+            }}>{l.label}</Link>
+          ))}
+          <a href="tel:0658589580" className="btn btn-rouge" style={{ marginTop: '16px', textAlign: 'center' }}>
+            ☎ 06 58 58 95 80
+          </a>
+        </nav>
       )}
-    </>
+    </header>
   )
 }

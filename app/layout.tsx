@@ -1,30 +1,52 @@
 import type { Metadata } from 'next'
+import { Fraunces, Karla } from 'next/font/google'
 import './globals.css'
 import Navbar from './components/Navbar'
-import CookieBanner from './components/CookieBanner'
+import Footer from './components/Footer'
+
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-fraunces',
+  axes: ['opsz'],
+  display: 'swap',
+})
+
+const karla = Karla({
+  subsets: ['latin'],
+  variable: '--font-karla',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
-  title: 'Saveurs Corses — Charcuteries & spécialités corses à Compiègne',
-  description: 'Découvrez les charcuteries et spécialités corses authentiques de Rodolphe Defouloy, présent sur les marchés de Compiègne, Venette et l\'Oise. Saucissons, coppa, lonzo, miels et terrines corses.',
-  keywords: 'charcuterie corse Compiègne, spécialités corses Oise, saucisson corse, coppa corse, lonzo, jambon sec corse, marchés Compiègne, produits corses Venette, Saveurs Corses, charcuterie artisanale Oise, produits corses 60',
-  authors: [{ name: 'Rodolphe Defouloy' }],
+  metadataBase: new URL('https://www.saveurs-corses.fr'),
+  title: {
+    default: 'Saveurs Corses — Charcuteries & spécialités corses à Compiègne',
+    template: '%s — Saveurs Corses',
+  },
+  description:
+    "Charcuteries et spécialités corses authentiques — saucissons, coppa, lonzo, miels et terrines — sur les marchés de Compiègne, Venette et l'Oise.",
+  keywords:
+    'charcuterie corse Compiègne, spécialités corses Oise, saucisson corse, coppa corse, lonzo, jambon sec corse, marchés Compiègne, produits corses Venette, Saveurs Corses',
+  authors: [{ name: 'Saveurs Corses' }],
   creator: 'Saveurs Corses',
   robots: 'index, follow',
   openGraph: {
     title: 'Saveurs Corses — Charcuteries & spécialités corses à Compiègne',
-    description: 'Charcuteries et spécialités corses authentiques sur les marchés de l\'Oise — Compiègne, Venette et alentours.',
-    url: 'https://saveurs-corses.fr',
+    description:
+      "Charcuteries et spécialités corses authentiques sur les marchés de l'Oise — Compiègne, Venette et alentours.",
+    url: 'https://www.saveurs-corses.fr',
     siteName: 'Saveurs Corses',
     locale: 'fr_FR',
     type: 'website',
+    images: ['/images/hero-bg.jpg'],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Saveurs Corses — Charcuteries corses à Compiègne',
-    description: 'Charcuteries et spécialités corses authentiques sur les marchés de l\'Oise.',
+    description: "Charcuteries et spécialités corses authentiques sur les marchés de l'Oise.",
   },
   alternates: {
-    canonical: 'https://saveurs-corses.fr',
+    canonical: '/',
   },
   verification: {
     google: 'aoG0x905pe5Ffvn7Bb_YhCrxvl-agqdhvb6lXemu2eI',
@@ -35,9 +57,11 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   name: 'Saveurs Corses',
-  description: 'Charcuteries et spécialités corses authentiques sur les marchés de l\'Oise',
-  url: 'https://saveurs-corses.fr',
-  telephone: '06 58 58 95 80',
+  description: "Charcuteries et spécialités corses authentiques sur les marchés de l'Oise",
+  url: 'https://www.saveurs-corses.fr',
+  telephone: '+33658589580',
+  email: 'saveurs.corses60@gmail.com',
+  image: 'https://www.saveurs-corses.fr/images/logo.png',
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Venette',
@@ -46,20 +70,22 @@ const jsonLd = {
   },
   areaServed: ['Compiègne', 'Venette', 'Oise', 'Jaux'],
   priceRange: '€€',
+  sameAs: [
+    'https://www.instagram.com/saveurs.corses60/',
+    'https://www.facebook.com/profile.php?id=61584344613212',
+  ],
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr">
+    <html lang="fr" className={`${fraunces.variable} ${karla.variable}`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body>
         <Navbar />
-        {children}
-        <CookieBanner />
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   )
