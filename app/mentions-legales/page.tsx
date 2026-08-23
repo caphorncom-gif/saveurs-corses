@@ -12,10 +12,10 @@ const sections: { titre: string; contenu: React.ReactNode }[] = [
     contenu: (
       <>
         <strong>Raison sociale :</strong> Saveurs Corses<br />
-        <strong>Forme juridique :</strong> [FORME JURIDIQUE]<br />
-        <strong>SIRET :</strong> [NUMÉRO SIRET]<br />
-        <strong>Responsable de la publication :</strong> Rodolphe Defouloy<br />
-        <strong>Adresse :</strong> [ADRESSE COMPLÈTE], Venette, 60280<br />
+        <strong>Forme juridique :</strong> SAS (société par actions simplifiée)<br />
+        <strong>SIREN :</strong> 944 105 170 — <strong>SIRET (siège) :</strong> 944 105 170 00012<br />
+        <strong>Responsable de la publication :</strong> Rodolphe Defouloy, Président<br />
+        <strong>Adresse :</strong> 373 rue de la République, 60280 Venette<br />
         <strong>Téléphone :</strong> 06 58 58 95 80<br />
         <strong>Email :</strong> saveurs.corses60@gmail.com
       </>

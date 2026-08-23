@@ -91,10 +91,10 @@ export default async function Accueil() {
               <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%' }}>
                 <defs><path id="cercle" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" /></defs>
                 <text style={{
-                  fontFamily: 'var(--font-karla)', fontSize: '10.5px', fontWeight: 800,
-                  letterSpacing: '.32em', textTransform: 'uppercase', fill: 'var(--miel)',
+                  fontFamily: 'var(--font-karla)', fontSize: '10px', fontWeight: 800,
+                  letterSpacing: '.24em', textTransform: 'uppercase', fill: 'var(--miel)',
                 }}>
-                  <textPath href="#cercle">· Depuis la Corse · Avec passion </textPath>
+                  <textPath href="#cercle" textLength="236" lengthAdjust="spacingAndGlyphs">Depuis la Corse · Avec passion · </textPath>
                 </text>
               </svg>
             </div>

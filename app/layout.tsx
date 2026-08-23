@@ -62,8 +62,11 @@ const jsonLd = {
   telephone: '+33658589580',
   email: 'saveurs.corses60@gmail.com',
   image: 'https://www.saveurs-corses.fr/images/logo.png',
+  legalName: 'Saveurs Corses',
+  founder: { '@type': 'Person', name: 'Rodolphe Defouloy' },
   address: {
     '@type': 'PostalAddress',
+    streetAddress: '373 rue de la République',
     addressLocality: 'Venette',
     postalCode: '60280',
     addressCountry: 'FR',
