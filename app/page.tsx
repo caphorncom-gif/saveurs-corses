@@ -84,18 +84,23 @@ export default async function Accueil() {
               }} />
             </div>
             <div className="hidden md:block" aria-hidden="true" style={{
-              position: 'absolute', top: '-4%', right: '6%',
-              width: '112px', height: '112px',
-              animation: 'tourne 24s linear infinite',
+              position: 'absolute', top: '-7%', right: '2%',
+              width: '148px', height: '148px',
+              filter: 'drop-shadow(0 10px 24px rgba(0,0,0,.45))',
             }}>
               <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%' }}>
-                <defs><path id="cercle" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" /></defs>
-                <text style={{
-                  fontFamily: 'var(--font-karla)', fontSize: '10px', fontWeight: 800,
-                  letterSpacing: '.24em', textTransform: 'uppercase', fill: 'var(--miel)',
-                }}>
-                  <textPath href="#cercle" textLength="236" lengthAdjust="spacingAndGlyphs">Depuis la Corse · Avec passion · </textPath>
-                </text>
+                <circle cx="50" cy="50" r="49" fill="rgba(28,19,10,.92)" stroke="rgba(232,197,118,.55)" strokeWidth="1" />
+                <circle cx="50" cy="50" r="27" fill="none" stroke="rgba(232,197,118,.4)" strokeWidth="0.75" />
+                <text x="50" y="50" textAnchor="middle" dominantBaseline="central" fill="#e8c576" style={{ fontSize: '15px' }}>✦</text>
+                <g style={{ animation: 'tourne 24s linear infinite', transformOrigin: '50% 50%' }}>
+                  <defs><path id="cercle" d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" /></defs>
+                  <text style={{
+                    fontFamily: 'var(--font-karla)', fontSize: '10.5px', fontWeight: 700,
+                    letterSpacing: '.2em', textTransform: 'uppercase', fill: '#e8c576',
+                  }}>
+                    <textPath href="#cercle" textLength="230" lengthAdjust="spacing">Depuis la Corse · Avec passion · </textPath>
+                  </text>
+                </g>
               </svg>
             </div>
           </div>
