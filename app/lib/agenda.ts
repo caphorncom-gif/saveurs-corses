@@ -10,8 +10,7 @@ export type Expo = {
   type: 'Marché' | 'Exposition' | 'Salon'
 }
 
-const AIRTABLE_BASE = 'appSX8pdfPJp2Wp6o'
-const AIRTABLE_TABLE = 'tbl9SOUNbPx3jLSFL'
+import { AIRTABLE_API } from './admin'
 
 const fallback: Expo[] = [
   { id: 'lm-sept', nom: 'Leroy Merlin de Jaux', detail: 'ZAC Jaux-Venette', debut: '2026-09-03', fin: '2026-09-05', type: 'Exposition' },
@@ -42,7 +41,7 @@ async function fetchAirtable(): Promise<Expo[]> {
   const token = process.env.AIRTABLE_TOKEN
   if (!token) return fallback
 
-  const url = `https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}?pageSize=100&sort%5B0%5D%5Bfield%5D=Date+d%C3%A9but&sort%5B0%5D%5Bdirection%5D=asc`
+  const url = `${AIRTABLE_API}?pageSize=100&sort%5B0%5D%5Bfield%5D=Date+d%C3%A9but&sort%5B0%5D%5Bdirection%5D=asc`
   try {
     const res = await fetch(url, {
       headers: { Authorization: `Bearer ${token}` },

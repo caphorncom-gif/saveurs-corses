@@ -192,3 +192,12 @@ h2 em { font-style: italic; font-weight: 420; color: var(--rouge); }
 }
 .champ:focus { border-color: var(--miel); }
 .champ::placeholder { color: rgba(246,238,222,.45); }
+
+/* Variante sur fond clair (page de gestion) */
+.champ-clair {
+  background: #fff;
+  border: 1px solid rgba(43,28,14,.2);
+  color: var(--encre);
+}
+.champ-clair:focus { border-color: var(--rouge); }
+.champ-clair::placeholder { color: rgba(122,98,72,.55); }
