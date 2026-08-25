@@ -6,7 +6,7 @@ export async function POST(req: Request) {
 
   try {
     const resend = new Resend(process.env.RESEND_API_KEY)
-    await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: 'Saveurs Corses <onboarding@resend.dev>',
       to: 'saveurs.corses60@gmail.com',
       replyTo: email,
@@ -31,8 +31,14 @@ export async function POST(req: Request) {
         </div>
       `,
     })
+    if (error) {
+      console.error('Resend a refusé l’envoi :', error)
+      return NextResponse.json({ error: `Envoi refusé par Resend : ${error.message ?? error.name ?? 'erreur inconnue'}` }, { status: 502 })
+    }
+    console.log('Email envoyé via Resend, id :', data?.id)
     return NextResponse.json({ success: true })
   } catch (error) {
+    console.error('Erreur formulaire contact :', error)
     return NextResponse.json({ error: 'Erreur envoi email' }, { status: 500 })
   }
 }
