@@ -29,25 +29,38 @@ const vide = { nom: '', detail: '', debut: '', fin: '', type: 'Marché' }
 
 export default function GestionClient() {
   const [code, setCode] = useState('')
+  const [codeVisible, setCodeVisible] = useState(false)
   const [codeValide, setCodeValide] = useState<string | null>(null)
-  const [erreurCode, setErreurCode] = useState(false)
+  const [erreurEntree, setErreurEntree] = useState<string | null>(null)
   const [expos, setExpos] = useState<Expo[] | null>(null)
   const [form, setForm] = useState(vide)
   const [statut, setStatut] = useState<'repos' | 'envoi' | 'erreur'>('repos')
   const [suppressionEnCours, setSuppressionEnCours] = useState<string | null>(null)
 
   const charger = useCallback(async (c: string) => {
-    const res = await fetch('/api/admin/expos', { headers: { 'x-admin-code': c } })
+    let res: Response
+    try {
+      res = await fetch('/api/admin/expos', { headers: { 'x-admin-code': encodeURIComponent(c) } })
+    } catch {
+      setErreurEntree('Erreur réseau — vérifiez la connexion et réessayez.')
+      return
+    }
     if (res.status === 401) {
       localStorage.removeItem('sc-code')
       setCodeValide(null)
-      setErreurCode(true)
+      setErreurEntree('Code incorrect, réessayez.')
       return
     }
-    if (!res.ok) { setStatut('erreur'); return }
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}))
+      setErreurEntree(`Erreur serveur : ${data.error ?? res.status}. Prévenez Kévin.`)
+      setStatut('erreur')
+      return
+    }
     const data = await res.json()
     setExpos(data.expos)
     setCodeValide(c)
+    setErreurEntree(null)
     localStorage.setItem('sc-code', c)
   }, [])
 
@@ -62,7 +75,7 @@ export default function GestionClient() {
     setStatut('envoi')
     const res = await fetch('/api/admin/expos', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-admin-code': codeValide },
+      headers: { 'Content-Type': 'application/json', 'x-admin-code': encodeURIComponent(codeValide) },
       body: JSON.stringify({ ...form, fin: form.fin || null }),
     })
     if (res.ok) {
@@ -78,7 +91,7 @@ export default function GestionClient() {
     setSuppressionEnCours(expo.id)
     const res = await fetch(`/api/admin/expos/${expo.id}`, {
       method: 'DELETE',
-      headers: { 'x-admin-code': codeValide },
+      headers: { 'x-admin-code': encodeURIComponent(codeValide) },
     })
     setSuppressionEnCours(null)
     if (res.ok) charger(codeValide)
@@ -92,24 +105,39 @@ export default function GestionClient() {
     return (
       <section style={{ background: 'var(--ardoise)', minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
         <form
-          onSubmit={e => { e.preventDefault(); setErreurCode(false); charger(code.trim()) }}
+          onSubmit={e => { e.preventDefault(); setErreurEntree(null); charger(code.trim()) }}
           style={{ width: '100%', maxWidth: '360px', textAlign: 'center', color: 'var(--creme)' }}
         >
           <img src="/images/logo.png" alt="" width={72} height={72} style={{ margin: '0 auto 16px', objectFit: 'contain' }} />
           <h1 className="serif" style={{ fontSize: '26px', fontWeight: 600, marginBottom: '6px' }}>Gestion de l’agenda</h1>
           <p style={{ fontSize: '14px', color: 'rgba(246,238,222,.6)', marginBottom: '24px' }}>Espace réservé — Saveurs Corses</p>
-          <input
-            type="password"
-            inputMode="numeric"
-            placeholder="Code d’accès"
-            value={code}
-            onChange={e => setCode(e.target.value)}
-            className="champ"
-            style={{ textAlign: 'center', fontSize: '18px', letterSpacing: '.3em', marginBottom: '12px' }}
-            autoFocus
-          />
-          {erreurCode && <p style={{ fontSize: '13px', color: '#f0958b', marginBottom: '12px' }}>Code incorrect, réessayez.</p>}
+          <div style={{ position: 'relative', marginBottom: '12px' }}>
+            <input
+              type={codeVisible ? 'text' : 'password'}
+              placeholder="Code d’accès"
+              value={code}
+              onChange={e => setCode(e.target.value)}
+              className="champ"
+              style={{ textAlign: 'center', fontSize: '18px', letterSpacing: '.25em', paddingRight: '52px' }}
+              autoFocus
+            />
+            <button
+              type="button"
+              onClick={() => setCodeVisible(v => !v)}
+              aria-label={codeVisible ? 'Masquer le code' : 'Afficher le code'}
+              style={{
+                position: 'absolute', right: '6px', top: '50%', transform: 'translateY(-50%)',
+                width: '42px', height: '42px', borderRadius: '8px', cursor: 'pointer',
+                background: 'none', border: 'none', fontSize: '20px',
+                opacity: codeVisible ? 1 : .55,
+              }}
+            >{codeVisible ? '🙈' : '👁️'}</button>
+          </div>
+          {erreurEntree && <p style={{ fontSize: '13px', color: '#f0958b', marginBottom: '12px' }}>{erreurEntree}</p>}
           <button type="submit" className="btn btn-rouge" style={{ width: '100%' }}>Entrer</button>
+          <p style={{ fontSize: '12px', color: 'rgba(246,238,222,.4)', marginTop: '16px' }}>
+            Le code est mémorisé sur cet appareil après la première connexion.
+          </p>
         </form>
       </section>
     )

@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
-import { AIRTABLE_API, autorise } from '../../../lib/admin'
+import { AIRTABLE_API, autorise, codeConfigure } from '../../../lib/admin'
 
 export async function GET(req: Request) {
+  if (!codeConfigure()) return NextResponse.json({ error: 'ADMIN_CODE non configuré sur le serveur' }, { status: 500 })
   if (!autorise(req)) return NextResponse.json({ error: 'Code invalide' }, { status: 401 })
   const token = process.env.AIRTABLE_TOKEN
   if (!token) return NextResponse.json({ error: 'AIRTABLE_TOKEN manquant' }, { status: 500 })
