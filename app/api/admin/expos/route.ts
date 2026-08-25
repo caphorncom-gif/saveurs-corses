@@ -12,7 +12,12 @@ export async function GET(req: Request) {
     headers: { Authorization: `Bearer ${token}` },
     cache: 'no-store',
   })
-  if (!res.ok) return NextResponse.json({ error: 'Erreur Airtable' }, { status: 502 })
+  if (!res.ok) {
+    const detail = res.status === 401 || res.status === 403
+      ? `Airtable refuse le jeton (${res.status}) — ajouter la base au scope du token`
+      : `Erreur Airtable (${res.status})`
+    return NextResponse.json({ error: detail }, { status: 502 })
+  }
   const data = await res.json()
   const expos = (data.records as { id: string; fields: Record<string, unknown> }[]).map(r => ({
     id: r.id,
@@ -48,7 +53,12 @@ export async function POST(req: Request) {
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({ records: [{ fields }], typecast: true }),
   })
-  if (!res.ok) return NextResponse.json({ error: 'Erreur Airtable à la création' }, { status: 502 })
+  if (!res.ok) {
+    const detail = res.status === 401 || res.status === 403
+      ? `Airtable refuse le jeton (${res.status}) — vérifier le scope écriture (data.records:write)`
+      : `Erreur Airtable à la création (${res.status})`
+    return NextResponse.json({ error: detail }, { status: 502 })
+  }
 
   revalidatePath('/')
   revalidatePath('/agenda')
