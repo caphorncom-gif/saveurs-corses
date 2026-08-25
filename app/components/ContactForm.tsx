@@ -3,7 +3,7 @@
 import { useState } from 'react'
 
 export default function ContactForm() {
-  const [formData, setFormData] = useState({ nom: '', email: '', sujet: '', message: '' })
+  const [formData, setFormData] = useState({ nom: '', email: '', telephone: '', sujet: '', message: '', societe: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -17,7 +17,7 @@ export default function ContactForm() {
       })
       if (res.ok) {
         setStatus('success')
-        setFormData({ nom: '', email: '', sujet: '', message: '' })
+        setFormData({ nom: '', email: '', telephone: '', sujet: '', message: '', societe: '' })
       } else setStatus('error')
     } catch {
       setStatus('error')
@@ -30,6 +30,14 @@ export default function ContactForm() {
         onChange={e => setFormData({ ...formData, nom: e.target.value })} />
       <input type="email" placeholder="Votre e-mail" required className="champ" value={formData.email}
         onChange={e => setFormData({ ...formData, email: e.target.value })} />
+      <input type="tel" placeholder="Votre téléphone" required className="champ" value={formData.telephone}
+        autoComplete="tel" pattern="[0-9+ .\-]{6,20}"
+        onChange={e => setFormData({ ...formData, telephone: e.target.value })} />
+      {/* Piège anti-spam : champ invisible pour les humains, rempli par les robots */}
+      <input type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" value={formData.societe}
+        onChange={e => setFormData({ ...formData, societe: e.target.value })}
+        style={{ position: 'absolute', left: '-9999px', height: 0, width: 0, opacity: 0, pointerEvents: 'none' }}
+        name="societe" placeholder="Société" />
       <input type="text" placeholder="Sujet" required className="champ" value={formData.sujet}
         onChange={e => setFormData({ ...formData, sujet: e.target.value })} />
       <textarea placeholder="Votre message..." rows={5} required className="champ" style={{ resize: 'vertical' }}
