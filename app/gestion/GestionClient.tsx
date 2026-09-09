@@ -34,6 +34,7 @@ export default function GestionClient() {
   const [erreurEntree, setErreurEntree] = useState<string | null>(null)
   const [expos, setExpos] = useState<Expo[] | null>(null)
   const [form, setForm] = useState(vide)
+  const [enEdition, setEnEdition] = useState<Expo | null>(null)
   const [statut, setStatut] = useState<'repos' | 'envoi' | 'erreur'>('repos')
   const [suppressionEnCours, setSuppressionEnCours] = useState<string | null>(null)
 
@@ -69,20 +70,33 @@ export default function GestionClient() {
     if (c) charger(c)
   }, [charger])
 
-  const ajouter = async (e: React.FormEvent) => {
+  const soumettre = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!codeValide) return
     setStatut('envoi')
-    const res = await fetch('/api/admin/expos', {
-      method: 'POST',
+    const res = await fetch(enEdition ? `/api/admin/expos/${enEdition.id}` : '/api/admin/expos', {
+      method: enEdition ? 'PATCH' : 'POST',
       headers: { 'Content-Type': 'application/json', 'x-admin-code': encodeURIComponent(codeValide) },
       body: JSON.stringify({ ...form, fin: form.fin || null }),
     })
     if (res.ok) {
       setForm(vide)
+      setEnEdition(null)
       setStatut('repos')
       charger(codeValide)
     } else setStatut('erreur')
+  }
+
+  const modifier = (expo: Expo) => {
+    setEnEdition(expo)
+    setForm({ nom: expo.nom, detail: expo.detail, debut: expo.debut, fin: expo.fin ?? '', type: expo.type })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const annulerEdition = () => {
+    setEnEdition(null)
+    setForm(vide)
+    setStatut('repos')
   }
 
   const supprimer = async (expo: Expo) => {
@@ -155,13 +169,17 @@ export default function GestionClient() {
           Les dates ajoutées ici apparaissent immédiatement sur le site.
         </p>
 
-        {/* Formulaire d'ajout */}
-        <form onSubmit={ajouter} style={{
-          background: '#fdf8ee', border: '1px solid rgba(43,28,14,.12)', borderRadius: '14px',
+        {/* Formulaire d'ajout / modification */}
+        <form onSubmit={soumettre} style={{
+          background: '#fdf8ee',
+          border: enEdition ? '2px solid var(--rouge)' : '1px solid rgba(43,28,14,.12)',
+          borderRadius: '14px',
           padding: '20px 18px', marginBottom: '32px',
           display: 'flex', flexDirection: 'column', gap: '10px',
         }}>
-          <h2 className="serif" style={{ fontSize: '18px', fontWeight: 640 }}>Ajouter une date</h2>
+          <h2 className="serif" style={{ fontSize: '18px', fontWeight: 640 }}>
+            {enEdition ? `Modifier « ${enEdition.nom} »` : 'Ajouter une date'}
+          </h2>
           <input type="text" placeholder="Nom (ex. Marché de Compiègne)" required value={form.nom}
             onChange={e => setForm({ ...form, nom: e.target.value })}
             className="champ champ-clair" />
@@ -196,9 +214,18 @@ export default function GestionClient() {
           {statut === 'erreur' && (
             <p style={{ fontSize: '13px', color: '#b3392f' }}>Erreur — réessayez ou appelez Kévin.</p>
           )}
-          <button type="submit" disabled={statut === 'envoi'} className="btn btn-rouge" style={{ opacity: statut === 'envoi' ? .6 : 1 }}>
-            {statut === 'envoi' ? 'Ajout…' : 'Ajouter au site'}
-          </button>
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+            <button type="submit" disabled={statut === 'envoi'} className="btn btn-rouge" style={{ flex: 1, opacity: statut === 'envoi' ? .6 : 1 }}>
+              {statut === 'envoi'
+                ? (enEdition ? 'Enregistrement…' : 'Ajout…')
+                : (enEdition ? 'Enregistrer les modifications' : 'Ajouter au site')}
+            </button>
+            {enEdition && (
+              <button type="button" onClick={annulerEdition} className="btn btn-ghost-clair">
+                Annuler
+              </button>
+            )}
+          </div>
         </form>
 
         {/* Dates à venir */}
@@ -220,6 +247,12 @@ export default function GestionClient() {
                   {plage(e)}{e.detail ? ` · ${e.detail}` : ''} · {e.type}
                 </p>
               </div>
+              <button onClick={() => modifier(e)} aria-label={`Modifier ${e.nom}`} style={{
+                flexShrink: 0, width: '40px', height: '40px', borderRadius: '10px', cursor: 'pointer',
+                border: enEdition?.id === e.id ? '2px solid var(--rouge)' : '1px solid rgba(43,28,14,.25)',
+                background: enEdition?.id === e.id ? 'rgba(156,33,33,.08)' : 'transparent',
+                color: 'var(--encre)', fontSize: '16px',
+              }}>✎</button>
               <button onClick={() => supprimer(e)} disabled={suppressionEnCours === e.id} aria-label={`Supprimer ${e.nom}`} style={{
                 flexShrink: 0, width: '40px', height: '40px', borderRadius: '10px', cursor: 'pointer',
                 border: '1px solid rgba(179,57,47,.35)', background: 'rgba(179,57,47,.07)',
@@ -246,6 +279,11 @@ export default function GestionClient() {
                     <p style={{ fontWeight: 700, fontSize: '14px' }}>{e.nom}</p>
                     <p style={{ fontSize: '12.5px', color: 'var(--brun-doux)' }}>{plage(e)}</p>
                   </div>
+                  <button onClick={() => modifier(e)} aria-label={`Modifier ${e.nom}`} style={{
+                    flexShrink: 0, width: '34px', height: '34px', borderRadius: '8px', cursor: 'pointer',
+                    border: '1px solid rgba(43,28,14,.2)', background: 'transparent',
+                    color: 'var(--brun-doux)', fontSize: '13px',
+                  }}>✎</button>
                   <button onClick={() => supprimer(e)} aria-label={`Supprimer ${e.nom}`} style={{
                     flexShrink: 0, width: '34px', height: '34px', borderRadius: '8px', cursor: 'pointer',
                     border: '1px solid rgba(43,28,14,.2)', background: 'transparent',
