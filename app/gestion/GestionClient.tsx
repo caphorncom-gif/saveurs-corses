@@ -35,6 +35,7 @@ export default function GestionClient() {
   const [expos, setExpos] = useState<Expo[] | null>(null)
   const [form, setForm] = useState(vide)
   const [enEdition, setEnEdition] = useState<Expo | null>(null)
+  const [duplicationDe, setDuplicationDe] = useState<string | null>(null)
   const [statut, setStatut] = useState<'repos' | 'envoi' | 'erreur'>('repos')
   const [suppressionEnCours, setSuppressionEnCours] = useState<string | null>(null)
 
@@ -84,6 +85,7 @@ export default function GestionClient() {
     if (res.ok) {
       setForm(vide)
       setEnEdition(null)
+      setDuplicationDe(null)
       setStatut('repos')
       charger(codeValide)
     } else setStatut('erreur')
@@ -91,12 +93,22 @@ export default function GestionClient() {
 
   const modifier = (expo: Expo) => {
     setEnEdition(expo)
+    setDuplicationDe(null)
     setForm({ nom: expo.nom, detail: expo.detail, debut: expo.debut, fin: expo.fin ?? '', type: expo.type })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  /** Reprend le nom, le lieu et le type d'une date existante ; les dates restent à saisir. */
+  const dupliquer = (expo: Expo) => {
+    setEnEdition(null)
+    setDuplicationDe(expo.nom)
+    setForm({ nom: expo.nom, detail: expo.detail, debut: '', fin: '', type: expo.type })
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const annulerEdition = () => {
     setEnEdition(null)
+    setDuplicationDe(null)
     setForm(vide)
     setStatut('repos')
   }
@@ -174,14 +186,19 @@ export default function GestionClient() {
         {/* Formulaire d'ajout / modification */}
         <form onSubmit={soumettre} style={{
           background: '#fdf8ee',
-          border: enEdition ? '2px solid var(--rouge)' : '1px solid rgba(43,28,14,.12)',
+          border: enEdition || duplicationDe ? '2px solid var(--rouge)' : '1px solid rgba(43,28,14,.12)',
           borderRadius: '14px',
           padding: '20px 18px', marginBottom: '32px',
           display: 'flex', flexDirection: 'column', gap: '10px',
         }}>
           <h2 className="serif" style={{ fontSize: '18px', fontWeight: 640 }}>
-            {enEdition ? `Modifier « ${enEdition.nom} »` : 'Ajouter une date'}
+            {enEdition ? `Modifier « ${enEdition.nom} »` : duplicationDe ? `Nouvelle date — copie de « ${duplicationDe} »` : 'Ajouter une date'}
           </h2>
+          {duplicationDe && (
+            <p style={{ fontSize: '13px', color: 'var(--brun-doux)', marginTop: '-4px' }}>
+              Indiquez simplement les nouvelles dates ci-dessous.
+            </p>
+          )}
           <input type="text" placeholder="Nom (ex. Marché de Compiègne)" required value={form.nom}
             onChange={e => setForm({ ...form, nom: e.target.value })}
             className="champ champ-clair" />
@@ -222,7 +239,7 @@ export default function GestionClient() {
                 ? (enEdition ? 'Enregistrement…' : 'Ajout…')
                 : (enEdition ? 'Enregistrer les modifications' : 'Ajouter au site')}
             </button>
-            {enEdition && (
+            {(enEdition || duplicationDe) && (
               <button type="button" onClick={annulerEdition} className="btn btn-ghost-clair">
                 Annuler
               </button>
@@ -249,17 +266,24 @@ export default function GestionClient() {
                   {plage(e)}{e.detail ? ` · ${e.detail}` : ''} · {e.type}
                 </p>
               </div>
-              <button onClick={() => modifier(e)} aria-label={`Modifier ${e.nom}`} style={{
-                flexShrink: 0, width: '40px', height: '40px', borderRadius: '10px', cursor: 'pointer',
-                border: enEdition?.id === e.id ? '2px solid var(--rouge)' : '1px solid rgba(43,28,14,.25)',
-                background: enEdition?.id === e.id ? 'rgba(156,33,33,.08)' : 'transparent',
-                color: 'var(--encre)', fontSize: '16px',
-              }}>✎</button>
-              <button onClick={() => supprimer(e)} disabled={suppressionEnCours === e.id} aria-label={`Supprimer ${e.nom}`} style={{
-                flexShrink: 0, width: '40px', height: '40px', borderRadius: '10px', cursor: 'pointer',
-                border: '1px solid rgba(179,57,47,.35)', background: 'rgba(179,57,47,.07)',
-                color: '#b3392f', fontSize: '17px', opacity: suppressionEnCours === e.id ? .4 : 1,
-              }}>✕</button>
+              <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
+                <button onClick={() => modifier(e)} aria-label={`Modifier ${e.nom}`} title="Modifier" style={{
+                  width: '38px', height: '38px', borderRadius: '10px', cursor: 'pointer',
+                  border: enEdition?.id === e.id ? '2px solid var(--rouge)' : '1px solid rgba(43,28,14,.25)',
+                  background: enEdition?.id === e.id ? 'rgba(156,33,33,.08)' : 'transparent',
+                  color: 'var(--encre)', fontSize: '16px',
+                }}>✎</button>
+                <button onClick={() => dupliquer(e)} aria-label={`Dupliquer ${e.nom}`} title="Dupliquer" style={{
+                  width: '38px', height: '38px', borderRadius: '10px', cursor: 'pointer',
+                  border: '1px solid rgba(43,28,14,.25)', background: 'transparent',
+                  color: 'var(--encre)', fontSize: '15px',
+                }}>⧉</button>
+                <button onClick={() => supprimer(e)} disabled={suppressionEnCours === e.id} aria-label={`Supprimer ${e.nom}`} title="Supprimer" style={{
+                  width: '38px', height: '38px', borderRadius: '10px', cursor: 'pointer',
+                  border: '1px solid rgba(179,57,47,.35)', background: 'rgba(179,57,47,.07)',
+                  color: '#b3392f', fontSize: '17px', opacity: suppressionEnCours === e.id ? .4 : 1,
+                }}>✕</button>
+              </div>
             </div>
           ))}
         </div>
@@ -281,16 +305,18 @@ export default function GestionClient() {
                     <p style={{ fontWeight: 700, fontSize: '14px' }}>{e.nom}</p>
                     <p style={{ fontSize: '12.5px', color: 'var(--brun-doux)' }}>{plage(e)}</p>
                   </div>
-                  <button onClick={() => modifier(e)} aria-label={`Modifier ${e.nom}`} style={{
-                    flexShrink: 0, width: '34px', height: '34px', borderRadius: '8px', cursor: 'pointer',
-                    border: '1px solid rgba(43,28,14,.2)', background: 'transparent',
-                    color: 'var(--brun-doux)', fontSize: '13px',
-                  }}>✎</button>
-                  <button onClick={() => supprimer(e)} aria-label={`Supprimer ${e.nom}`} style={{
-                    flexShrink: 0, width: '34px', height: '34px', borderRadius: '8px', cursor: 'pointer',
-                    border: '1px solid rgba(43,28,14,.2)', background: 'transparent',
-                    color: 'var(--brun-doux)', fontSize: '14px',
-                  }}>✕</button>
+                  <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
+                    <button onClick={() => dupliquer(e)} aria-label={`Dupliquer ${e.nom}`} title="Reprogrammer cette date" style={{
+                      width: '34px', height: '34px', borderRadius: '8px', cursor: 'pointer',
+                      border: '1px solid rgba(43,28,14,.2)', background: 'transparent',
+                      color: 'var(--brun-doux)', fontSize: '13px',
+                    }}>⧉</button>
+                    <button onClick={() => supprimer(e)} aria-label={`Supprimer ${e.nom}`} title="Supprimer" style={{
+                      width: '34px', height: '34px', borderRadius: '8px', cursor: 'pointer',
+                      border: '1px solid rgba(43,28,14,.2)', background: 'transparent',
+                      color: 'var(--brun-doux)', fontSize: '14px',
+                    }}>✕</button>
+                  </div>
                 </div>
               ))}
             </div>
