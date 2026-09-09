@@ -67,7 +67,9 @@ export default function GestionClient() {
 
   useEffect(() => {
     const c = localStorage.getItem('sc-code')
-    if (c) charger(c)
+    if (!c) return
+    const t = setTimeout(() => charger(c), 0)
+    return () => clearTimeout(t)
   }, [charger])
 
   const soumettre = async (e: React.FormEvent) => {
