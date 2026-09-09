@@ -54,6 +54,34 @@ export default async function PageAgenda() {
           gap: 'clamp(32px, 5vw, 64px)', alignItems: 'start',
         }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            {/* Rendez-vous hebdomadaire */}
+            <div style={{
+              display: 'flex', gap: '18px', alignItems: 'center',
+              background: 'rgba(208,154,62,.1)',
+              border: '1px solid rgba(208,154,62,.4)',
+              borderRadius: '12px', padding: '18px 20px',
+            }}>
+              <img
+                src="/images/marche-compiegne.webp"
+                alt="Le stand Saveurs Corses sur le marché de Compiègne"
+                width={894} height={901}
+                style={{ width: '84px', height: '84px', objectFit: 'cover', borderRadius: '10px', flexShrink: 0 }}
+              />
+              <div>
+                <span style={{
+                  display: 'inline-block', fontSize: '9.5px', fontWeight: 800,
+                  letterSpacing: '.2em', textTransform: 'uppercase', color: 'var(--miel)',
+                  marginBottom: '6px',
+                }}>Chaque semaine</span>
+                <h2 className="serif" style={{ fontSize: '19px', fontWeight: 620, color: 'var(--creme)', marginBottom: '4px' }}>
+                  Tous les samedis matin
+                </h2>
+                <p style={{ fontSize: '13.5px', color: 'rgba(246,238,222,.7)' }}>
+                  Marché de Compiègne — notre rendez-vous hebdomadaire
+                </p>
+              </div>
+            </div>
+
             {expos.length > 0
               ? expos.map(e => <DateCard key={e.id} expo={e} />)
               : (

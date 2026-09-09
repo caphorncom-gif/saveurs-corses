@@ -144,10 +144,52 @@ export default async function Accueil() {
         <div className="wrap" style={{ position: 'relative', zIndex: 2 }}>
           <span className="kicker" style={{ color: 'var(--miel)' }}>Agenda</span>
           <h2 style={{ color: 'var(--creme)' }}>Retrouvez-nous<br /><em style={{ color: 'var(--miel)' }}>près de chez vous</em></h2>
+
+          {/* Rendez-vous hebdomadaire — marché de Compiègne */}
+          <div style={{
+            marginTop: '44px',
+            display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: 'clamp(24px, 4vw, 48px)', alignItems: 'center',
+            background: 'rgba(246,238,222,.05)',
+            border: '1px solid rgba(208,154,62,.35)',
+            borderRadius: '16px',
+            padding: 'clamp(20px, 3vw, 32px)',
+          }}>
+            <img
+              src="/images/marche-compiegne.webp"
+              alt="Le stand Saveurs Corses et Rodolphe Defouloy sur le marché de Compiègne"
+              width={894} height={901}
+              style={{
+                width: '100%', height: 'auto', borderRadius: '12px',
+                boxShadow: '0 20px 40px rgba(0,0,0,.45)',
+              }}
+            />
+            <div>
+              <span style={{
+                display: 'inline-block',
+                fontSize: '10.5px', fontWeight: 800, letterSpacing: '.22em', textTransform: 'uppercase',
+                padding: '5px 12px', borderRadius: '999px',
+                background: 'rgba(208,154,62,.18)', color: 'var(--miel)',
+                border: '1px solid rgba(208,154,62,.4)',
+                marginBottom: '16px',
+              }}>Chaque semaine</span>
+              <h3 className="serif" style={{
+                fontSize: 'clamp(24px, 3vw, 34px)', fontWeight: 560, lineHeight: 1.1,
+                color: 'var(--creme)', marginBottom: '14px',
+              }}>
+                Tous les samedis matin<br /><em style={{ fontStyle: 'italic', fontWeight: 420, color: 'var(--miel)' }}>au marché de Compiègne</em>
+              </h3>
+              <p style={{ color: 'rgba(246,238,222,.72)', fontSize: '16px', maxWidth: '440px' }}>
+                Notre rendez-vous hebdomadaire : retrouvez toute la sélection de charcuteries
+                et de spécialités corses sur le stand, et repartez avec les conseils qui vont avec.
+              </p>
+            </div>
+          </div>
+
           {expos.length > 0 ? (
             <div style={{
               display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-              gap: '18px', marginTop: '44px',
+              gap: '18px', marginTop: '32px',
             }}>
               {expos.slice(0, 3).map(e => <DateCard key={e.id} expo={e} />)}
             </div>
