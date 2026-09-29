@@ -1,3 +1,4 @@
+import Script from 'next/script';
 import type { Metadata } from 'next'
 import { Fraunces, Karla } from 'next/font/google'
 import './globals.css'
@@ -89,6 +90,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
         <main>{children}</main>
         <Footer />
+        {/* Umami — stats sans cookie (pas de consentement requis), auto-hébergé */}
+        <Script
+          src="/stats/script.js"
+          data-website-id="32a83eca-0797-4297-82bf-3d2d2d295045"
+          data-host-url="/stats"
+          data-domains="saveurs-corses.fr,www.saveurs-corses.fr"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   )
